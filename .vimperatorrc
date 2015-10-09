@@ -1,0 +1,25 @@
+"3.8.3 (created: 2014/11/09 13:19:01)
+
+set gui=nonavigation
+" broken with Tree Style Tabs, configure manually with Stylish instead
+" set tabnumbers
+
+let g:smooziee_scroll_amount="100"
+let g:smooziee_scroll_interval="10"
+
+let mapleader=","
+
+map x :mquit<CR>
+
+command requestpolicy javascript requestpolicy.overlay.openToolbarPopup()
+
+highlight Hint font-family: sans-serif; font-size: 12px; font-weight: bold; color: black; background-color: white; border-color: ButtonShadow; border-width: 1px; border-style: solid; padding: 0px 1px 1px 1px;
+set hintchars=hjklasdfgyuiopqwertnmzxcvb7890123456
+" set titlestring=Firefox
+
+autocmd LocationChange http://localhost:8090/ tabdetach
+" ignorekeys docs.google.com
+
+source! /home/aneesh/.vimperatorrc.local
+
+" vim: set ft=vimperator:
