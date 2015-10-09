@@ -9,12 +9,13 @@ filetype off                  " required
 syntax on
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
 if s:MSWindows
-let path='~/vimfiles/bundle'
-call vundle#begin(path)
+	set rtp+=~/vimfiles/bundle/Vundle.vim
+	let path='~/vimfiles/bundle'
+	call vundle#begin(path)
 else
-call vundle#begin()
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
 endif
 
 " let Vundle manage Vundle, required
