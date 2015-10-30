@@ -1,6 +1,6 @@
 "3.8.3 (created: 2014/11/09 13:19:01)
 
-set gui=nonavigation
+set gui=nonavigation,notabs
 " broken with Tree Style Tabs, configure manually with Stylish instead
 " set tabnumbers
 
@@ -9,6 +9,8 @@ let g:smooziee_scroll_interval="10"
 
 let mapleader=","
 
+map v :set gui=tabs<CR>
+map V :set gui=notabs<CR>
 map x :mquit<CR>
 
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
