@@ -16,10 +16,10 @@ map v :set gui=tabs<CR>
 map V :set gui=notabs<CR>
 map x :mquit<CR>
 
-map e :panorama add 
-map E :panorama 
-map ge :panorama switch 
-map <C-S-e> :panorama list<CR>
+map e :tabgroups add 
+map E :tabgroups 
+map ge :tabgroups switch 
+map <C-S-e> :tabgroups list<CR>
 
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
 
