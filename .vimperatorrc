@@ -13,6 +13,11 @@ map v :set gui=tabs<CR>
 map V :set gui=notabs<CR>
 map x :mquit<CR>
 
+map e :panorama add 
+map E :panorama 
+map ge :panorama switch 
+map <C-S-e> :panorama list<CR>
+
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
 
 highlight Hint font-family: sans-serif; font-size: 12px; font-weight: bold; color: black; background-color: white; border-color: ButtonShadow; border-width: 1px; border-style: solid; padding: 0px 1px 1px 1px;
