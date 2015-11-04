@@ -9,6 +9,9 @@ let g:smooziee_scroll_interval="10"
 
 let mapleader=","
 
+cmap <C-n> <Nop>
+cmap <C-p> <Nop>
+
 map v :set gui=tabs<CR>
 map V :set gui=notabs<CR>
 map x :mquit<CR>
