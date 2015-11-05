@@ -15,6 +15,8 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
+cnoremap <A-b> <C-Left>
+cnoremap <A-f> <C-Right>
 
 map v :set gui=tabs<CR>
 map V :set gui=notabs<CR>
