@@ -11,6 +11,8 @@ let mapleader=","
 
 cmap <C-n> <Nop>
 cmap <C-p> <Nop>
+cmap <C-i> <Nop>
+cmap <C-o> <Nop>
 
 map v :set gui=tabs<CR>
 map V :set gui=notabs<CR>
