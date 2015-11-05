@@ -9,10 +9,12 @@ let g:smooziee_scroll_interval="10"
 
 let mapleader=","
 
-cmap <C-n> <Nop>
-cmap <C-p> <Nop>
 cmap <C-i> <Nop>
 cmap <C-o> <Nop>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
 
 map v :set gui=tabs<CR>
 map V :set gui=notabs<CR>
