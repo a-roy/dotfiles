@@ -1,0 +1,40 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+/* Fade unloaded tabs (like BarTab) */
+
+.tabbrowser-tab[pending=true], menuitem.alltabs-item[pending=true] {
+	opacity: .5 !important;
+}
+
+/* Tab numbering like Tab Numbers, compatible with Tree Style Tabs */
+
+tab {
+    counter-increment:tabnumber;
+}
+
+.tabbrowser-tabs .tabbrowser-tab:after
+{
+  color: #000000 !important;
+  font-size: 10px !important;
+  background-color: lightgrey !important;
+  padding: 0 3px 0 3px !important;
+  margin-left: -11px !important;
+  margin-bottom: 16px !important;
+  content: counter(tabnumber) !important;
+  position: absolute !important;
+  border-radius: 4px !important;
+  border: 1px solid grey !important;
+  opacity: 0.5 !important;
+  width: 11px !important;
+  background-image: none !important;
+  display: inline !important;
+  visibility: visible !important;
+}
+
+.tabbrowser-tabs .tabbrowser-tab[selected]:after
+{
+ background-color: #ff5500 !important;
+ color: white !important;
+ opacity: 1 !important;
+}
+
