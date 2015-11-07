@@ -1,7 +1,8 @@
 "3.8.3 (created: 2014/11/09 13:19:01)
 
-set gui=nonavigation,notabs
-" broken with Tree Style Tabs, configure manually with Stylish instead
+set gui=nonavigation
+set complete=stl
+" broken with Tree Style Tabs, configure manually with user styles instead
 " set tabnumbers
 
 let g:smooziee_scroll_amount="100"
@@ -18,14 +19,15 @@ cnoremap <C-p> <Up>
 cnoremap <A-b> <C-Left>
 cnoremap <A-f> <C-Right>
 
-map v :set gui=tabs<CR>
-map V :set gui=notabs<CR>
-map x :mquit<CR>
+map v :set gui=invtabs<CR>
+map x :multiplequit<CR>
 
+map <Leader>t :tab 
+map <Leader>w :window 
+map <Leader>e :tabgroups 
 map e :tabgroups add 
-map E :tabgroups 
+map E :tabgroups pushtab! 
 map ge :tabgroups switch 
-map <C-S-e> :tabgroups list<CR>
 
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
 
