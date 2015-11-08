@@ -31,7 +31,11 @@ map ge :tabgroups switch
 
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
 
-highlight Hint font-family: sans-serif; font-size: 12px; font-weight: bold; color: black; background-color: white; border-color: ButtonShadow; border-width: 1px; border-style: solid; padding: 0px 1px 1px 1px;
+highlight Hint font-family: sans-serif; font-size: 12px; font-weight: bold;
+highlight Hint -append color: black; background-color: white;
+highlight Hint -append border-color: ButtonShadow; border-width: 1px;
+highlight Hint -append border-style: solid; padding: 0px 1px 1px 1px;
+highlight HintElem background-color: #F8F800;  color: black;
 set hintchars=hjklasdfgyuiopqwertnmzxcvb7890123456
 " set titlestring=Firefox
 
