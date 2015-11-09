@@ -10,6 +10,12 @@ let g:smooziee_scroll_interval="10"
 
 let mapleader=","
 
+" This feature is "built-in", but we have to bind the mapping
+set! browser.ctrlTab.previews=true
+set! browser.ctrlTab.mostRecentlyUsed=true
+autocmd VimperatorEnter .* map <C-Tab> :javascript ctrlTab.open()<CR>
+autocmd VimperatorEnter .* map <C-S-Tab> :javascript ctrlTab.open(); ctrlTab._selectedIndex = ctrlTab.tabPreviewCount - 1<CR>
+
 cmap <C-i> <Nop>
 cmap <C-o> <Nop>
 cnoremap <C-b> <Left>
