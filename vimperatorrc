@@ -28,6 +28,7 @@ map <Leader>e :tabgroups
 map e :tabgroups add 
 map E :tabgroups pushtab! 
 map ge :tabgroups switch 
+map <C-S-e> :tabgroups list<CR>
 
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
 
