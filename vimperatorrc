@@ -13,18 +13,20 @@ let mapleader=","
 " Enable Linux-style tab switching (with Alt) on Windows
 javascript <<EOF
 if (navigator.appVersion.contains("Windows")) {
-  for (i = 1; i < 9; i++) {
-    let a = "<A-" + i + ">";
-    let t = i + "gt";
-    mappings.addUserMap( [modes.NORMAL, modes.VISUAL], [a], "Go to tab " + i,
-      function() {
-        events.feedkeys(t, true, true);
+    for (i = 1; i < 9; i++) {
+        let a = "<A-" + i + ">";
+        let t = i + "gt";
+        mappings.addUserMap([modes.NORMAL, modes.VISUAL], [a],
+            "Go to tab " + i,
+            function() {
+                events.feedkeys(t, true, true);
+          });
+    }
+    mappings.addUserMap([modes.NORMAL, modes.VISUAL], ["<A-9>"],
+        "Go to last tab",
+        function() {
+            events.feedkeys("<C-9>", true, true);
       });
-  }
-  mappings.addUserMap([modes.NORMAL, modes.VISUAL], ["<A-9>"], "Go to last tab",
-    function() {
-      events.feedkeys("<C-9>", true, true);
-    });
 }
 EOF
 
