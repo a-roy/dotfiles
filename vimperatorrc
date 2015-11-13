@@ -30,6 +30,12 @@ if (navigator.appVersion.contains("Windows")) {
 }
 EOF
 
+javascript <<EOF
+function livestreamer(arg) {
+    io.run("livestreamer", [buffer.URL, arg], false);
+}
+EOF
+
 " This feature is "built-in", but we have to bind the mapping
 set! browser.ctrlTab.previews=true
 set! browser.ctrlTab.mostRecentlyUsed=true
@@ -57,6 +63,7 @@ map ge :tabgroups switch
 map <C-S-e> :tabgroups list<CR>
 
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
+command livestreamer -nargs=1 javascript livestreamer(<q-args>)
 
 highlight Hint font-family: sans-serif; font-size: 12px; font-weight: bold;
 highlight Hint -append color: black; background-color: white;
@@ -68,6 +75,7 @@ set hintchars=hjklasdfgyuiopqwertnmzxcvb7890123456
 
 autocmd LocationChange http://localhost:8090/ tabdetach
 " ignorekeys docs.google.com
+autocmd PageLoad http://www.twitch.tv/[a-z0-9_]+ livestreamer source
 
 source! /home/aneesh/.vimperatorrc.local
 
