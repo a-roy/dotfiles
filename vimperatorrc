@@ -39,8 +39,16 @@ EOF
 " This feature is "built-in", but we have to bind the mapping
 set! browser.ctrlTab.previews=true
 set! browser.ctrlTab.mostRecentlyUsed=true
-autocmd VimperatorEnter .* map <C-Tab> :javascript ctrlTab.open()<CR>
-autocmd VimperatorEnter .* map <C-S-Tab> :javascript ctrlTab.open(); ctrlTab._selectedIndex = ctrlTab.tabPreviewCount - 1<CR>
+javascript <<EOF
+function openCtrlTab(reverse) {
+    ctrlTab.open();
+    if (reverse) {
+        ctrlTab._selectedIndex = ctrlTab.tabPreviewCount - 1;
+    }
+}
+EOF
+autocmd VimperatorEnter .* map <C-Tab> :javascript openCtrlTab(false)<CR>
+autocmd VimperatorEnter .* map <C-S-Tab> :javascript openCtrlTab(true);<CR>
 
 cmap <C-i> <Nop>
 cmap <C-o> <Nop>
