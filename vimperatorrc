@@ -2,8 +2,6 @@
 
 set gui=nonavigation
 set complete=stl
-" broken with Tree Style Tabs, configure manually with user styles instead
-" set tabnumbers
 
 let g:smooziee_scroll_amount="100"
 let g:smooziee_scroll_interval="10"
@@ -95,7 +93,6 @@ set hintchars=hjklasdfgyuiopqwertnmzxcvb7890123456
 " set titlestring=Firefox
 
 autocmd LocationChange http://localhost:8090/ tabdetach
-" ignorekeys docs.google.com
 autocmd PageLoad http://www.twitch.tv/[a-z0-9_]+ livestreamer source
 
 source! /home/aneesh/.vimperatorrc.local
