@@ -59,6 +59,19 @@ cnoremap <C-p> <Up>
 cnoremap <A-b> <C-Left>
 cnoremap <A-f> <C-Right>
 
+" Insert current tab group name in command line (useful for buffer selection)
+javascript <<EOF
+mappings.addUserMap([modes.COMMAND_LINE], ["<A-e>"], "Insert tab group name",
+    function () {
+        let groupName =
+            tabGroup.tabView.GroupItems.getActiveGroupItem().getTitle();
+        commandline.command += groupName + ".";
+        commandline.resetCompletions();
+        commandline.triggerCallback(
+            "change", commandline._currentExtendedMode, commandline.command);
+    });
+EOF
+
 map v :set gui=invtabs<CR>
 map x :multiplequit<CR>
 
