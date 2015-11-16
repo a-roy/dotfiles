@@ -1,11 +1,14 @@
 "3.8.3 (created: 2014/11/09 13:19:01)
 
+" General settings
 set gui=nonavigation
 set complete=stl
 
+" Plugin variables
 let g:smooziee_scroll_amount="100"
 let g:smooziee_scroll_interval="10"
 
+" <Leader> definition
 let mapleader=","
 
 " Enable Linux-style tab switching (with Alt) on Windows
@@ -28,6 +31,7 @@ if (navigator.appVersion.contains("Windows")) {
 }
 EOF
 
+" Run Livestreamer on the current URL
 javascript <<EOF
 function livestreamer(arg) {
     io.run("livestreamer", [buffer.URL, arg], false);
@@ -48,6 +52,7 @@ EOF
 autocmd VimperatorEnter .* map <C-Tab> :javascript openCtrlTab(false)<CR>
 autocmd VimperatorEnter .* map <C-S-Tab> :javascript openCtrlTab(true);<CR>
 
+" Command line keyboard mapping
 cmap <C-i> <Nop>
 cmap <C-o> <Nop>
 cnoremap <C-b> <Left>
@@ -70,9 +75,11 @@ mappings.addUserMap([modes.COMMAND_LINE], ["<A-e>"], "Insert tab group name",
     });
 EOF
 
+" General mappings
 map v :set gui=invtabs<CR>
 map x :multiplequit<CR>
 
+" Shortcuts for tab, tab group, and window operations
 map <Leader>t :tab 
 map <Leader>w :window 
 map <Leader>e :tabgroups 
@@ -81,17 +88,19 @@ map E :tabgroups pushtab!
 map ge :tabgroups switch 
 map <C-S-e> :tabgroups list<CR>
 
+" User-defined commands
 command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
 command livestreamer -nargs=1 javascript livestreamer(<q-args>)
 
+" Hint settings & customization
 highlight Hint font-family: sans-serif; font-size: 12px; font-weight: bold;
 highlight Hint -append color: black; background-color: white;
 highlight Hint -append border-color: ButtonShadow; border-width: 1px;
 highlight Hint -append border-style: solid; padding: 0px 1px 1px 1px;
 highlight HintElem background-color: #F8F800;  color: black;
 set hintchars=hjklasdfgyuiopqwertnmzxcvb7890123456
-" set titlestring=Firefox
 
+" Autocommands
 autocmd LocationChange http://localhost:8090/ tabdetach
 autocmd PageLoad http://www.twitch.tv/[a-z0-9_]+ livestreamer source
 
