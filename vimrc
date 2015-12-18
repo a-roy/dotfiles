@@ -306,3 +306,5 @@ map  <C-CR> :Open<CR>
 inoremap <C-BS> <C-W>
 " }}} Custom keybindings
 " }}} Configuration
+
+source $MYVIMRC.local
