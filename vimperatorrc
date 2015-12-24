@@ -76,6 +76,7 @@ mappings.addUserMap([modes.COMMAND_LINE], ["<A-e>"], "Insert tab group name",
 EOF
 
 " General mappings
+map <F8> :set gui=invtabs<CR>
 map v :set gui=invtabs<CR>
 map x :multiplequit<CR>
 
