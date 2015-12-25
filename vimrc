@@ -1,6 +1,7 @@
 let s:Unix = has("unix")
 let s:Linux = system("uname") == "Linux\n"
 let s:MSWindows = has("win32") || has("win64")
+let s:Cygwin = has("win32unix")
 
 " {{{ Vundle
 set nocompatible              " be iMproved, required
