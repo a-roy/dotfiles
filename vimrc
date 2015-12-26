@@ -105,15 +105,15 @@ filetype plugin indent on    " required
 " {{{ Global settings
 " Maximize GUI
 if s:MSWindows
-autocmd GUIEnter * simalt ~x
+	autocmd GUIEnter * simalt ~x
 endif
 
 " Set font
 if s:MSWindows
-set guifont=Consolas:h9:cANSI
-set encoding=utf-8
+	set guifont=Consolas:h9:cANSI
+	set encoding=utf-8
 else
-set guifont=Droid\ Sans\ Mono\ Dotted\ for\ Powerline\ 6.5
+	set guifont=Droid\ Sans\ Mono\ Dotted\ for\ Powerline\ 6.5
 endif
 
 " Visual aids
@@ -174,7 +174,7 @@ let g:ConqueTerm_CWInsert = 1
 "}}} ConqueTerm
 " {{{ Tagbar
 if s:MSWindows
-let g:tagbar_ctags_bin = 'C:\ctags58\ctags.exe'
+	let g:tagbar_ctags_bin = 'C:\ctags58\ctags.exe'
 endif
 
 let g:tagbar_type_markdown = {
@@ -196,11 +196,11 @@ let g:tagbar_type_markdown = {
 let g:tex_flavor='latex'
 let g:Tex_DefaultTargetFormat = 'pdf'
 if has("win32")
-let g:Tex_ViewRule_pdf =
-	\ 'SumatraPDF -reuse-instance -inverse-search
-	\ "gvim -c \":RemoteOpen +\%l \%f\""'
-let g:Tex_CompileRule_pdf =
-	\ 'pdflatex -synctex=-1 -src-specials -interaction=nonstopmode $*'
+	let g:Tex_ViewRule_pdf =
+		\ 'SumatraPDF -reuse-instance -inverse-search
+		\ "gvim -c \":RemoteOpen +\%l \%f\""'
+	let g:Tex_CompileRule_pdf =
+		\ 'pdflatex -synctex=-1 -src-specials -interaction=nonstopmode $*'
 endif
 " }}} LaTeX Suite
 " {{{ LatexBox
@@ -210,7 +210,7 @@ let g:LatexBox_latexmk_preview_continuously=1
 " {{{ Automatic TeX Plugin
 "autocmd BufReadPre *.tex let b:atp_TexFlavor="latex"
 if s:Linux
-autocmd BufReadPre *.tex let b:atp_Viewer="zathura"
+	autocmd BufReadPre *.tex let b:atp_Viewer="zathura"
 endif
 " }}} Automatic TeX Plugin
 " {{{ Rainbow Parentheses
@@ -236,9 +236,9 @@ let g:slimv_ctags=1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 if has("gui_running")
-let g:airline_theme = "lucius"
+	let g:airline_theme = "lucius"
 else
-let g:airline_theme = "understated"
+	let g:airline_theme = "understated"
 endif
 " }}} vim-airline
 " }}} Plugin configuration
@@ -292,9 +292,9 @@ autocmd Syntax * RainbowParenthesesLoadRound
 autocmd Syntax * RainbowParenthesesLoadSquare
 
 if s:MSWindows
-autocmd FileType c nmap <buffer> <F5> :GCC<CR>
-autocmd FileType python nmap <buffer> <F5> :Py<CR>
-autocmd FileType scheme nmap <buffer> <F5> :Rkt<CR>
+	autocmd FileType c nmap <buffer> <F5> :GCC<CR>
+	autocmd FileType python nmap <buffer> <F5> :Py<CR>
+	autocmd FileType scheme nmap <buffer> <F5> :Rkt<CR>
 endif
 " }}} Autocommands
 " {{{ Custom keybindings
