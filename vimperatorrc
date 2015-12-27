@@ -1,7 +1,7 @@
 "3.8.3 (created: 2014/11/09 13:19:01)
 
 " General settings
-set gui=nonavigation
+set gui=none
 set complete=stl
 
 " Plugin variables
