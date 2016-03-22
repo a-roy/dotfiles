@@ -4,31 +4,22 @@ let s:MSWindows = has("win32") || has("win64")
 let s:Cygwin = has("win32unix")
 let s:Nvim = has("nvim")
 
+let vimdir = split(&rtp, ',')[0]
+
 if s:Nvim
 	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
-" {{{ Vundle
-if empty(glob('~/.vim/autoload/plug.vim'))
+" {{{ Vim-plug
+if empty(glob(vimdir . '/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 set nocompatible              " be iMproved, required
 
-" set the runtime path to include Vundle and initialize
-if s:MSWindows
-	let path='~/vimfiles/plugged'
-	call plug#begin(path)
-elseif s:Nvim
-	call plug#begin('~/.vim/plugged')
-else
-	call plug#begin('~/.vim/plugged')
-endif
-
-" let Vundle manage Vundle, required
-"Plug 'gmarik/Vundle.vim'
+call plug#begin(vimdir . '/plugged')
 
 " Keep Plugin commands between vundle#begin/end.
 " {{{ GUI
@@ -81,7 +72,7 @@ endif
 " TODO get something to work, and also not occupy key bindings
 "Plug 'git://git.code.sf.net/p/vim-latex/vim-latex'
 "Plug 'coot/atp_vim'
-Plug 'LaTeX-Box-Team/LaTeX-Box'
+Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': ['latex'] }
 " }}} LaTeX
 " {{{ Coding
 " {{{ General
@@ -124,7 +115,7 @@ endif
 call plug#end()            " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
-" }}} Vundle
+" }}} Vim-plug
 " {{{ Configuration
 " {{{ Global settings
 " Maximize GUI
