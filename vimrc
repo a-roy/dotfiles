@@ -23,6 +23,7 @@ call plug#begin(vimdir . '/plugged')
 
 " Keep Plugin commands between vundle#begin/end.
 " {{{ GUI
+Plug 'jonathanfilip/vim-lucius'
 Plug 'iissnan/tangoX'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'vim-airline/vim-airline'
@@ -155,6 +156,8 @@ elseif &term =~ '^xterm\|rxvt'
 	let &t_SI .= "\<Esc>[5 q"
 	let &t_SR .= "\<Esc>[3 q"
 	let &t_EI .= "\<Esc>[1 q"
+endif
+if !has("gui_running")
 	set ttimeoutlen=0
 endif
 
@@ -178,7 +181,6 @@ set backspace=indent,eol,start
 " Allow modified buffers to be hidden
 set hidden
 
-cd ~
 " }}} Global settings
 " {{{ Plugin configuration
 " {{{ shell.vim
