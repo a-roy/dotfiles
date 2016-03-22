@@ -2,64 +2,86 @@ let s:Unix = has("unix")
 let s:Linux = system("uname") == "Linux\n"
 let s:MSWindows = has("win32") || has("win64")
 let s:Cygwin = has("win32unix")
+let s:Nvim = has("nvim")
+
+if s:Nvim
+	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+endif
 
 " {{{ Vundle
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 set nocompatible              " be iMproved, required
-filetype off                  " required
-" Syntax highlighting
-syntax on
 
 " set the runtime path to include Vundle and initialize
 if s:MSWindows
-	set rtp+=~/vimfiles/bundle/Vundle.vim
-	let path='~/vimfiles/bundle'
-	call vundle#begin(path)
+	let path='~/vimfiles/plugged'
+	call plug#begin(path)
+elseif s:Nvim
+	call plug#begin('~/.vim/plugged')
 else
-	set rtp+=~/.vim/bundle/Vundle.vim
-	call vundle#begin()
+	call plug#begin('~/.vim/plugged')
 endif
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+"Plug 'gmarik/Vundle.vim'
 
 " Keep Plugin commands between vundle#begin/end.
 " {{{ GUI
-Plugin 'iissnan/tangoX'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'bling/vim-airline'
+Plug 'iissnan/tangoX'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " }}} GUI
 " {{{ General Editing
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-shell'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'godlygeek/tabular'
-Plugin 'tpope/vim-surround'
-Plugin 'myusuf3/numbers.vim'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-shell'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+Plug 'myusuf3/numbers.vim'
 " NOTE: See :help vimproc-install
 " how does neocomplete work? I like YCM
-"Plugin 'Shougo/neocomplete.vim'
-"Plugin 'osyo-manga/vim-reunions'
-"Plugin 'osyo-manga/vim-marching'
+"Plug 'Shougo/neocomplete.vim'
+"Plug 'osyo-manga/vim-reunions'
+"Plug 'osyo-manga/vim-marching'
 " }}} General Editing
 " {{{ File Management
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/unite.vim'
 " }}} File Management
 " {{{ Version Control
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " }}} Version Control
 " {{{ Markdown
-if s:Unix
-Plugin 'suan/vim-instant-markdown'
+if s:Nvim
+"Plug 'rhysd/nyaovim-markdown-preview'
+"let g:markdown_preview_auto=1
+"let g:markdown_preview_eager=1
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    !cargo build --release
+    UpdateRemotePlugins
+  endif
+endfunction
+
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+let g:markdown_composer_browser = 'vimb'
+elseif s:Unix
+Plug 'suan/vim-instant-markdown'
 elseif s:MSWindows
-Plugin 'euclio/vim-instant-markdown'
+Plug 'euclio/vim-instant-markdown'
 endif
 " }}} Markdown
 " {{{ LaTeX
 " TODO get something to work, and also not occupy key bindings
-"Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
-"Plugin 'coot/atp_vim'
-Plugin 'LaTeX-Box-Team/LaTeX-Box'
+"Plug 'git://git.code.sf.net/p/vim-latex/vim-latex'
+"Plug 'coot/atp_vim'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
 " }}} LaTeX
 " {{{ Coding
 " {{{ General
@@ -73,31 +95,33 @@ Plugin 'LaTeX-Box-Team/LaTeX-Box'
 " C:\Program Files (x86)\LLVM\lib\libclang.imp
 "   msbuild /t:ycm_core,ycm_client_support /property:configuration=Release
 "   YouCompleteMe.sln
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'majutsushi/tagbar'
-if has("gui_running")
-Plugin 'SirVer/ultisnips'
+Plug 'Valloric/YouCompleteMe'
+Plug 'majutsushi/tagbar'
+"Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdcommenter'
+if !s:Nvim
+	Plug 'rosenfeld/conque-term'
 endif
-"Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'rosenfeld/conque-term'
+Plug 'glsl.vim'
 " }}} General
 " {{{ Lisp/Scheme
-Plugin 'kovisoft/slimv'
+Plug 'kovisoft/slimv'
 " }}} Lisp/Scheme
 " {{{ C/C++
-"Plugin 'refactor'
+"Plug 'refactor'
 " http://cscope.sourceforge.net/cscope_vim_tutorial.html
 " http://www.vim.org/scripts/script.php?script_id=2087
 " http://www.vim.org/scripts/script.php?script_id=2699
 " http://www.reddit.com/r/vim/comments/e99h9/is_there_a_way_to_change_the_way_and_move/c16duif
 " https://code.google.com/p/lh-vim/wiki/lhCpp
 " }}} C/C++
+if s:Nvim
+Plug 'bfredl/nvim-ipy'
+endif
 " }}} Coding
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()            " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 " }}} Vundle
@@ -123,11 +147,24 @@ set hlsearch
 set laststatus=2
 execute "set colorcolumn=+" . join(range(1,255), ',+')
 
+" Cusor shapes in terminal
+" 1 or 0 -> blinking block
+" 2 -> solid block
+" 3 -> blinking underscore
+" 4 -> solid underscore
+" 5 -> blinking vertical bar
+" 6 -> solid vertical bar
 if s:Cygwin
-	let &t_ti.="\e[1 q"
-	let &t_SI.="\e[5 q"
-	let &t_EI.="\e[1 q"
-	let &t_te.="\e[0 q"
+	let &t_ti .= "\e[1 q"
+	let &t_SI .= "\e[5 q"
+	let &t_SR .= "\e[3 q"
+	let &t_EI .= "\e[1 q"
+	let &t_te .= "\e[0 q"
+elseif &term =~ '^xterm\|rxvt'
+	let &t_SI .= "\<Esc>[5 q"
+	let &t_SR .= "\<Esc>[3 q"
+	let &t_EI .= "\<Esc>[1 q"
+	set ttimeoutlen=0
 endif
 
 " Hide all GUI
@@ -271,6 +308,13 @@ endif
 autocmd FileType vim set foldmethod=marker foldminlines=1
 autocmd FileType * normal zR
 
+if s:Nvim
+	augroup vimrc_aucmd
+		autocmd!
+    	autocmd CursorHold * rshada|wshada
+	augroup END
+endif
+
 " Turn on word wrapping
 autocmd BufRead,BufNewFile *.txt,*.tex
 	\ set wrap linebreak nolist textwidth=0 wrapmargin=0
@@ -311,8 +355,13 @@ map  <C-CR> :Open<CR>
 " F10 : ConqueTerm_SendFileKey
 " F11 : ConqueTerm_ExecFileKey
 
+inoremap <C-B> <Left>
+inoremap <C-F> <Right>
+inoremap <C-D> <Del>
 inoremap <C-BS> <C-W>
 " }}} Custom keybindings
 " }}} Configuration
 
-source $MYVIMRC.local
+if has("gui")
+	source $MYVIMRC.local
+endif
