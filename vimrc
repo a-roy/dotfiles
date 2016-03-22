@@ -319,7 +319,7 @@ let mapleader=","
 
 map gb :bnext<CR>
 map gB :bprevious<CR>
-map  B      :Unite buffer file -smartcase<CR>
+map  B :Unite buffer file/async -smartcase<CR>
 " F5 : implemented per filetype
 nmap <F7>   :TagbarToggle<CR>
 map  <C-CR> :Open<CR>
