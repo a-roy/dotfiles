@@ -119,18 +119,6 @@ call plug#end()            " required
 " }}} Vim-plug
 " {{{ Configuration
 " {{{ Global settings
-" Maximize GUI
-if s:MSWindows
-	autocmd GUIEnter * simalt ~x
-endif
-
-" Set font
-if s:MSWindows
-	set guifont=Consolas:h9:cANSI
-	set encoding=utf-8
-else
-	set guifont=Droid\ Sans\ Mono\ Dotted\ for\ Powerline\ 6.5
-endif
 
 " Visual aids
 set number relativenumber
@@ -161,13 +149,9 @@ if !has("gui_running")
 	set ttimeoutlen=0
 endif
 
-" Hide all GUI
-set guioptions-=T guioptions-=t guioptions-=L guioptions-=r guioptions-=m
-set guioptions-=e
-
 " Set color scheme
-colorscheme tangoX
-highlight ColorColumn guibg=WhiteSmoke
+colorscheme lucius
+LuciusWhite
 
 " Tab options
 set tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
@@ -265,11 +249,7 @@ let g:slimv_ctags=1
 " TODO powerline symbols on windows
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-if has("gui_running")
-	let g:airline_theme = "lucius"
-else
-	let g:airline_theme = "understated"
-endif
+let g:airline_theme = "lucius"
 " }}} vim-airline
 " }}} Plugin configuration
 " {{{ Ex commands
@@ -354,7 +334,3 @@ inoremap <C-D> <Del>
 inoremap <C-BS> <C-W>
 " }}} Custom keybindings
 " }}} Configuration
-
-if has("gui")
-	source $MYVIMRC.local
-endif
