@@ -36,11 +36,38 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'myusuf3/numbers.vim'
-" NOTE: See :help vimproc-install
-" how does neocomplete work? I like YCM
-"Plug 'Shougo/neocomplete.vim'
-"Plug 'osyo-manga/vim-reunions'
-"Plug 'osyo-manga/vim-marching'
+Plug 'Konfekt/FastFold'
+" TODO neocomplete/deoplete vs YCM
+Plug 'Shougo/neocomplete.vim'
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+Plug 'osyo-manga/vim-reunions' | Plug 'osyo-manga/vim-marching'
+let g:marching_clang_command = "clang"
+let g:marching#clang_command#options = {
+\ "cpp" : "-std=c++11"
+\}
+let g:marching_include_paths = [
+\ fnamemodify('.', ':p'),
+\ fnamemodify('./include', ':p'),
+\ "/usr/include"
+\]
+autocmd FileType c,cpp let g:marching_include_paths = [
+\ fnamemodify('.', ':p'),
+\ fnamemodify('./include', ':p'),
+\ "/usr/include"
+\]
+"\ "/cygdrive/c/MinGW/lib/gcc/mingw32/4.9.3/include/c++"
+let g:marching_enable_neocomplete = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+let g:neocomplete#force_omni_input_patterns.cpp =
+	\ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+set updatetime =200
+imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 " }}} General Editing
 " {{{ File Management
 Plug 'Shougo/vimproc.vim'
@@ -87,7 +114,7 @@ Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': ['latex'] }
 " C:\Program Files (x86)\LLVM\lib\libclang.imp
 "   msbuild /t:ycm_core,ycm_client_support /property:configuration=Release
 "   YouCompleteMe.sln
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'majutsushi/tagbar'
 "Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdcommenter'
@@ -297,6 +324,11 @@ autocmd BufRead,BufNewFile *.txt,*.tex
 "autocmd BufWritePost *.tex silent !pkill -USR1 xdvi.bin
 autocmd FileType tex set textwidth=80
 autocmd FileType c,cpp set comments^=://!
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " Treat Racket as Scheme
 autocmd BufReadPost *.rkt,*.rktl set filetype=scheme
 set lispwords+=
