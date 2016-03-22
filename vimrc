@@ -11,17 +11,17 @@ if s:Nvim
 	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
+set nocompatible
+
 " {{{ Vim-plug
 if empty(glob(vimdir . '/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
-set nocompatible              " be iMproved, required
 
 call plug#begin(vimdir . '/plugged')
 
-" Keep Plugin commands between vundle#begin/end.
 " {{{ GUI
 Plug 'jonathanfilip/vim-lucius'
 Plug 'iissnan/tangoX'
@@ -37,37 +37,25 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'myusuf3/numbers.vim'
 Plug 'Konfekt/FastFold'
-" TODO neocomplete/deoplete vs YCM
+if s:Nvim
+Plug 'Shougo/deoplete.nvim'
+let g:deoplete#enable_at_startup = 1
+else
 Plug 'Shougo/neocomplete.vim'
-let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-Plug 'osyo-manga/vim-reunions' | Plug 'osyo-manga/vim-marching'
-let g:marching_clang_command = "clang"
-let g:marching#clang_command#options = {
-\ "cpp" : "-std=c++11"
-\}
-let g:marching_include_paths = [
-\ fnamemodify('.', ':p'),
-\ fnamemodify('./include', ':p'),
-\ "/usr/include"
-\]
-autocmd FileType c,cpp let g:marching_include_paths = [
-\ fnamemodify('.', ':p'),
-\ fnamemodify('./include', ':p'),
-\ "/usr/include"
-\]
-"\ "/cygdrive/c/MinGW/lib/gcc/mingw32/4.9.3/include/c++"
-let g:marching_enable_neocomplete = 1
 if !exists('g:neocomplete#force_omni_input_patterns')
 	let g:neocomplete#force_omni_input_patterns = {}
 endif
 
+let g:neocomplete#force_omni_input_patterns.c =
+	\ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
 let g:neocomplete#force_omni_input_patterns.cpp =
 	\ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-set updatetime =200
-imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+endif
+Plug 'justmao945/vim-clang'
+let g:clang_cpp_options = '-std=gnu++11 -x c++'
+let g:clang_verbose_pmenu = 1
 " }}} General Editing
 " {{{ File Management
 Plug 'Shougo/vimproc.vim'
@@ -104,17 +92,6 @@ Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': ['latex'] }
 " }}} LaTeX
 " {{{ Coding
 " {{{ General
-" NOTE: Requires compilation with CMake
-" See :help youcompleteme-full-installation-guide
-" Windows:
-"   cmake -G "Visual Studio 12"
-"   -DPATH_TO_LLVM_ROOT="C:\Program Files (x86)\LLVM"
-"   . <USERFOLDER>\vimfiles\bundle\YouCompleteme\third_party\ycmd\cpp
-" Configuration Properties -> Linker -> Additional Dependencies:
-" C:\Program Files (x86)\LLVM\lib\libclang.imp
-"   msbuild /t:ycm_core,ycm_client_support /property:configuration=Release
-"   YouCompleteMe.sln
-"Plug 'Valloric/YouCompleteMe'
 Plug 'majutsushi/tagbar'
 "Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdcommenter'
@@ -139,10 +116,7 @@ Plug 'bfredl/nvim-ipy'
 endif
 " }}} Coding
 
-" All of your Plugins must be added before the following line
-call plug#end()            " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
+call plug#end()
 " }}} Vim-plug
 " {{{ Configuration
 " {{{ Global settings
@@ -177,8 +151,13 @@ if !has("gui_running")
 endif
 
 " Set color scheme
-colorscheme lucius
-LuciusWhite
+if s:Nvim
+	colorscheme tangoX
+	highlight ColorColumn guibg=WhiteSmoke
+else
+	colorscheme lucius
+	LuciusWhite
+endif
 
 " Tab options
 set tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
@@ -260,9 +239,6 @@ let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
 " NOTE: see further configuration under Autocommands
 " }}} Rainbow Parentheses
-" {{{ YouCompleteMe
-let g:ycm_autoclose_preview_window_after_insertion = 1
-" }}} YouCompleteMe
 " {{{ Syntastic
 "let g:syntastic_cpp_checkers = ['gcc']
 "let g:syntastic_cpp_check_header = 1
