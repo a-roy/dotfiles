@@ -126,6 +126,7 @@ set number relativenumber
 set ruler
 set hlsearch
 set laststatus=2
+set noshowmode
 execute "set colorcolumn=+" . join(range(1,255), ',+')
 
 " Cusor shapes in terminal
@@ -252,7 +253,10 @@ let g:slimv_ctags=1
 " TODO powerline symbols on windows
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = "lucius"
+let g:airline#extensions#tagbar#enabled = 1
+" Some airline themes copy colors from the active colorscheme:
+" hybrid, lucius, monochrome, tomorrow, zenburn
+let g:airline_theme = "zenburn"
 " }}} vim-airline
 " }}} Plugin configuration
 " {{{ Ex commands
