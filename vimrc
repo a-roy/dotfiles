@@ -264,25 +264,6 @@ if !exists(":DiffOrig")
     command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis |
 		\ windmcd p | diffthis
 endif
-if s:MSWindows
-command! L2rtf execute "!\"C:/Program Files (x86)/latex2rtf/latex2rt\" \""
-	\ . bufname("%") . "\""
-command! GCC :!gcc % -o %:r & %:r
-command! Clang :!clang % -o %:r & %:r
-command! CMake :!vcvars32 & cd build &
-	\"C:\Program Files (x86)\CMake 2.8\bin\cmake-gui"
-command! Python silent execute "!start py -2 -i \"" . bufname("%") . "\""
-command! Python3 silent execute "!start py -3 -i \"" .bufname("%") . "\""
-command! Py execute "lcd " . expand("%:h") |
-	\ execute "ConqueTermSplit py -i \"" . expand("%:t") . "\""
-command! Pyv execute "lcd " . expand("%:h") |
-	\ execute "ConqueTermVSplit py -i \"" . expand("%:t") . "\""
-command! Racket silent execute "!start racket -i -u \"" . bufname("%") . "\""
-command! Rkt execute "lcd " . expand("%:h") |
-	\ execute "ConqueTermSplit racket -i -u \"" . expand("%:t") . "\""
-command! Rktv execute "lcd " . expand("%:h") |
-	\ execute "ConqueTermVSplit racket -i -u \"" . expand("%:t") . "\""
-endif
 " }}} Ex commands
 " {{{ Autocommands
 autocmd FileType vim set foldmethod=marker foldminlines=1
@@ -319,12 +300,6 @@ autocmd VimEnter * RainbowParenthesesActivate
 autocmd ColorScheme * RainbowParenthesesActivate
 autocmd Syntax * RainbowParenthesesLoadRound
 autocmd Syntax * RainbowParenthesesLoadSquare
-
-if s:MSWindows
-	autocmd FileType c nmap <buffer> <F5> :GCC<CR>
-	autocmd FileType python nmap <buffer> <F5> :Py<CR>
-	autocmd FileType scheme nmap <buffer> <F5> :Rkt<CR>
-endif
 " }}} Autocommands
 " {{{ Custom keybindings
 let mapleader=","
