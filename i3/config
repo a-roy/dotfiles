@@ -235,6 +235,7 @@ smart_borders on
 
 for_window [workspace = "\*$"] floating enable
 
+for_window [class = "Tilda"] floating enable
 for_window [instance = "Chat"] move to workspace number 3, layout tabbed
 for_window [class = "Pidgin"] move to workspace number 3
 for_window [class = "Skype"] move to workspace number 3
@@ -282,6 +283,7 @@ for_window [class="mpv" instance="mpsyt"] move to mark mpsyt, floating enable
 for_window [class="feh" title="feh \[thumbnail mode\]"] splitv
 for_window [class="feh" title=".*\..*"] resize grow height 0 px or 40 ppt
 
+exec tilda
 exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat weechat"
 
 exec pidgin
