@@ -57,7 +57,9 @@ EOF
 autocmd VimperatorEnter .* map <C-Tab> :javascript openCtrlTab(false)<CR>
 autocmd VimperatorEnter .* map <C-S-Tab> :javascript openCtrlTab(true);<CR>
 
-" Command line keyboard mapping
+nmap <C-j> <Nop>
+nmap <C-k> <Nop>
+" Insert/Command line keyboard mapping
 cmap <C-i> <Nop>
 cmap <C-o> <Nop>
 cnoremap <C-b> <Left>
@@ -66,6 +68,14 @@ cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 cnoremap <A-b> <C-Left>
 cnoremap <A-f> <C-Right>
+imap <C-i> <Nop>
+imap <C-o> <Nop>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+inoremap <A-b> <C-Left>
+inoremap <A-f> <C-Right>
 
 " Insert current tab group name in command line (useful for buffer selection)
 javascript <<EOF
