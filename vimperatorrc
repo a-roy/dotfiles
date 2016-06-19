@@ -3,6 +3,9 @@
 " General settings
 set gui=none
 set complete=stl
+set focuscontent
+set statuslinevisibility=auto
+set noscrollbars
 
 " Plugin variables
 let g:smooziee_scroll_amount="100"
