@@ -27,8 +27,8 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+Shift+d exec --no-startup-id "rofi -show run -terminal $terminal"
-bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="rofi -dmenu -p 'run:'" --display-binary --term $terminal
+bindsym $mod+Shift+d exec --no-startup-id rofi -show run
+bindsym $mod+d exec --no-startup-id rofi -modi drun -run-command "i3-msg 'exec {cmd}'" -show drun
 
 # change focus
 bindsym $mod+h focus left
@@ -54,6 +54,7 @@ bindsym $mod+Shift+Right move right
 
 # split container
 bindsym $mod+x exec --no-startup-id ~/.i3/i3-autosplit
+bindsym $mod+BackSpace open
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen
@@ -62,6 +63,8 @@ bindsym $mod+f fullscreen
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
+#bindsym $mod+e layout splith
+#bindsym $mod+Shift+e layout splitv
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -76,8 +79,21 @@ bindsym $mod+Shift+a focus child
 # focus oldest urgent window
 bindsym $mod+z [urgent=latest] focus
 
-# dswitcher
-bindsym $mod+Tab exec --no-startup-id "rofi -show window"
+# workspace/window management
+bindsym $mod+Tab exec --no-startup-id men-gen -m rofi i3-winlist workspace
+bindsym $mod+Shift+Tab exec --no-startup-id men-gen -m rofi i3-winlist workspace "move to "
+bindsym $mod+i exec --no-startup-id i3-input -F 'rename workspace to "%s"' -P "rename workspace:"
+bindsym $mod+n exec --no-startup-id i3-msg 'workspace next'
+bindsym $mod+p exec --no-startup-id i3-msg 'workspace prev'
+bindsym $mod+bracketright exec --no-startup-id i3-msg 'workspace next'
+bindsym $mod+bracketleft exec --no-startup-id i3-msg 'workspace prev'
+bindsym $mod+b exec --no-startup-id men-gen -m rofi i3-winlist
+bindsym $mod+Shift+b exec --no-startup-id rofi -show window
+bindsym $mod+Shift+t exec --no-startup-id men-gen -m rofi i3-winlist main workspace
+bindsym $mod+t exec --no-startup-id men-gen -m rofi i3-winlist main lateral
+
+bindsym $mod+Shift+semicolon exec --no-startup-id i3-input
+bindsym $mod+Escape exec --no-startup-id i3lock-fancy
 
 # scrot
 bindsym $mod+equal exec --no-startup-id "scrot"
@@ -86,6 +102,8 @@ bindsym $mod+Shift+equal exec --no-startup-id "scrot -u"
 # mpd dmenu
 #bindsym $mod+c exec --no-startup-id clerk
 bindsym $mod+c exec --no-startup-id men-gen --menu=rofi mpd
+bindsym $mod+v exec --no-startup-id men-gen --menu=rofi emoji
+bindsym $mod+m exec --no-startup-id men-gen --menu=rofi menus
 
 # switch to workspace
 bindsym $mod+grave workspace number 0
@@ -117,7 +135,9 @@ bindsym $mod+Shift+0 move container to workspace number 10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec i3-msg exit
+
+bindsym $mod+backslash move position center
+
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 1dB- && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 1dB+ && pkill -RTMIN+10 i3blocks
