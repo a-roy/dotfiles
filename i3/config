@@ -133,6 +133,15 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Shift+e exec i3-msg exit
+bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 1dB- && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 1dB+ && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioPrev exec --no-startup-id mpc prev
+bindsym XF86AudioNext exec --no-startup-id mpc next
+bindsym XF86AudioPlay exec --no-startup-id mpc toggle
+bindsym XF86AudioStop exec --no-startup-id mpc stop
+bindsym XF86KbdBrightnessDown exec --no-startup-id xbacklight -dec 5
+bindsym XF86KbdBrightnessUp exec --no-startup-id xbacklight -inc 5
 
 # resize window (you can also use the mouse for that)
 #mode "" {
@@ -166,7 +175,9 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command "python ~/.i3pystatus.py"
+		position top
+		status_command i3blocks
+		separator_symbol " "
     colors {
         background #000000
         statusline #ffffff
@@ -204,6 +215,7 @@ exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat w
 
 exec pidgin
 exec_always ~/.i3/i3-autoname-workspaces.py &
+exec_always ~/.i3/i3blocks-title &
 #exec apulse32 skype
 #client.focused #0088CC #0088CC #ffffff #dddddd
 #client.focused_inactive #333333 #333333 #888888 #292d2e

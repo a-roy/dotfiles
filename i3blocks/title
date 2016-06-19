@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+import i3ipc
+import sys
+import os
+import subprocess
+import html
+sys.path.append(os.path.expanduser('~/.i3'))
+from winicon import icon_for_window
+
+i3 = i3ipc.Connection()
+
+if __name__ == '__main__':
+    #id = subprocess.run(['xdotool', 'getactivewindow'],
+    #        stdout=subprocess.PIPE).stdout
+    #name = subprocess.run(['xdotool', 'getwindowname', id],
+    #        stdout=subprocess.PIPE).stdout if id else b''
+    #id = int(id.decode()) if id else None
+    #name = name.decode().strip()
+    w = i3.get_tree().find_focused()
+    id = w.window
+    name = '' if w.type == 'workspace' else w.name
+    _, _, abbr_name = name.rpartition(' - ')
+    icon = ' {}'.format(icon_for_window(id)) if id else ''
+    text = ' {} '.format(html.escape(name)) if name else ''
+    abbr_text = ' {} '.format(html.escape(abbr_name)) if abbr_name else ''
+    full_text = ('<span foreground="black" background="#fefefe">'
+            '{}{}</span>').format(icon, text)
+    short_text = ('<span foreground="black" background="#fefefe">'
+            '{}{}</span>').format(icon, abbr_text)
+    #short_text = ('<span foreground="black" background="#fefefe">'
+    #        '{}<small>{}</small></span>').format(icon, text)
+    print(full_text)
+    print(short_text)
+    print('#ffffff')
