@@ -202,6 +202,10 @@ bar {
     }
 }
 
+new_window pixel 4
+hide_edge_borders vertical
+smart_borders on
+
 for_window [workspace = "\*$"] floating enable
 
 for_window [instance = "Chat"] move to workspace number 3, layout tabbed
