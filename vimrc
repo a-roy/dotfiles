@@ -61,7 +61,7 @@ let g:clang_cpp_completeopt = 'menuone'
 let g:clang_cpp_options = '-std=c++11 -x c++'
 let g:clang_verbose_pmenu = 1
 let g:clang_enable_format_command = 0
-" }}} General Editing
+Plug 'rhysd/vim-clang-format'
 " {{{ File Management
 Plug 'Shougo/vimproc.vim'
 Plug 'Shougo/unite.vim'
