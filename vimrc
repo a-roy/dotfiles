@@ -55,8 +55,12 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 	\ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 endif
 Plug 'justmao945/vim-clang'
-let g:clang_cpp_options = '-std=gnu++11 -x c++'
+let g:clang_auto = 0
+let g:clang_c_completeopt = 'menuone'
+let g:clang_cpp_completeopt = 'menuone'
+let g:clang_cpp_options = '-std=c++11 -x c++'
 let g:clang_verbose_pmenu = 1
+let g:clang_enable_format_command = 0
 " }}} General Editing
 " {{{ File Management
 Plug 'Shougo/vimproc.vim'
