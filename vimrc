@@ -26,7 +26,7 @@ call plug#begin(vimdir . '/plugged')
 " {{{ GUI
 Plug 'jonathanfilip/vim-lucius'
 Plug 'iissnan/tangoX'
-Plug 'kien/rainbow_parentheses.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " }}} GUI
@@ -296,10 +296,9 @@ set lispwords+=
 	\public-method,override-method,private-method,syntax-case,syntax-rules
 set lispwords+=define-type,type-case
 " Rainbow Parentheses
-autocmd VimEnter * RainbowParenthesesActivate
-autocmd ColorScheme * RainbowParenthesesActivate
-autocmd Syntax * RainbowParenthesesLoadRound
-autocmd Syntax * RainbowParenthesesLoadSquare
+autocmd VimEnter * RainbowParentheses
+autocmd ColorScheme * RainbowParentheses
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 " }}} Autocommands
 " {{{ Custom keybindings
 let mapleader=","
