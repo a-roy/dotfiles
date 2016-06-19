@@ -241,6 +241,7 @@ for_window [class = "Pidgin"] move to workspace number 3
 for_window [class = "Skype"] move to workspace number 3
 for_window [class = "Steam" title="Steam - Update News"] floating enable
 for_window [title = "Page\(s\) Unresponsive"] floating enable
+for_window [class="Firefox" window_role="About"] floating enable
 for_window [class = "Yad"] floating enable
 for_window [instance = "LoLPatcherUx.exe"] move to workspace number 0
 for_window [instance = "LolClient.exe"] move to workspace number 0
