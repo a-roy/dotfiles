@@ -1,0 +1,22 @@
+rofi.color-enabled: true
+! State:           'bg',    'fg',    'bgalt', 'hlbg',  'hlfg'
+rofi.color-normal: #111111, #d3d7cf, #111111, #fefefe, #000000
+rofi.color-urgent: #990000, #fce94f, #990000, #990000, #fefefe
+rofi.color-active: #555753, #fefefe, #555753, #3465a4, #fefefe
+!                  'bg',    'border'
+rofi.color-window: #111111, #d3d7cf
+!rofi.padding: 1
+!rofi.lines: 10
+rofi.borderwidth: 0
+!rofi.opacity: 100
+rofi.font: Monospace 11
+rofi.location: 1
+rofi.yoffset: 22
+!rofi.xoffset: 0
+rofi.width: 100
+!rofi.fixed_num_lines: 1
+!rofi.hmode: false
+!rofi.terminal: termite
+!rofi.ssh-set-title: false
+rofi.modi: window,run,workspace:rofi_i3_workspace.sh,move to workspace:rofi_i3_move.sh
+rofi.separator-style: solid
