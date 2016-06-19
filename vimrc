@@ -315,5 +315,8 @@ inoremap <C-B> <Left>
 inoremap <C-F> <Right>
 inoremap <C-D> <Del>
 inoremap <C-BS> <C-W>
+
+map <silent> <Leader>cc :ClangCloseWindow<CR>
+map <silent> <Leader>cs :ClangSyntaxCheck<CR>
 " }}} Custom keybindings
 " }}} Configuration
