@@ -189,7 +189,9 @@ let g:shell_fullscreen_items='mT'
 let g:shell_fullscreen_always_on_top = 0
 " }}} shell.vim
 " {{{ unite
+if !s:Linux
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
+endif
 " }}} unite
 " {{{ Tagbar
 if s:MSWindows
