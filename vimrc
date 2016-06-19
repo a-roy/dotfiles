@@ -304,6 +304,7 @@ let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 " {{{ Custom keybindings
 let mapleader=","
 
+map <C-Z> <Nop>
 map gb :bnext<CR>
 map gB :bprevious<CR>
 if s:Linux
