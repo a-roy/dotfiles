@@ -188,6 +188,36 @@ for_window [instance = "LolClient.exe"] move to workspace number 0
 for_window [instance = "League of Legends.exe"] move to workspace number 0
 for_window [instance = "rads_user_kernel.exe"] move to workspace number 0
 
+for_window [class="Firefox"] title_format " %title"
+for_window [class="chromium"] title_format " %title"
+for_window [class="chromium" instance="mail.google.com__mail(_u_\d)?"] title_format " %title"
+for_window [class="Gvim"] title_format " %title"
+for_window [class="Ario"] title_format " %title"
+for_window [class="vimb"] title_format " %title"
+for_window [class="libreoffice"] title_format " %title"
+for_window [class="mpv"] title_format " %title"
+for_window [class="feh"] title_format " %title"
+for_window [class="Zathura"] title_format " %title"
+for_window [class="nautilus"] title_format " %title"
+for_window [class="qt5ct"] title_format " %title"
+for_window [class="Pidgin"] title_format " %title"
+for_window [class="gimp-\d\.\d"] title_format " %title"
+for_window [class="inkscape"] title_format " %title"
+for_window [class="Blender"] title_format " %title"
+for_window [class="calibre-gui"] title_format " %title"
+for_window [class="MComix"] title_format " %title"
+for_window [class="discord"] title_format " %title"
+for_window [class="Skype"] title_format " %title"
+for_window [class="Steam"] title_format " %title"
+for_window [class="simplenote"] title_format " %title"
+for_window [class="Termite"] title_format " %title"
+for_window [class="Termite" title=".* - N?VIM"] title_format " %title"
+for_window [class="Termite" title="ranger:.*"] title_format " %title"
+for_window [class="Termite" title="WeeChat( \d.\d)?"] title_format " %title"
+for_window [class="Termite" title="(.* - )?mpsyt"] title_format " %title"
+for_window [class="Termite" title="rtv \d\.\d\.\d"] title_format " %title"
+for_window [class="Termite" title="\w+@\w+:.*"] title_format " %title"
+
 exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat weechat"
 
 exec pidgin
