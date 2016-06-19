@@ -29,6 +29,13 @@ if (navigator.appVersion.contains("Windows")) {
 }
 EOF
 
+" Run mpv (with youtube-dl integration)
+javascript <<EOF
+function mpv(args) {
+    io.run("mpv", args.length == 0 ? [buffer.URL] : args, false);
+}
+EOF
+
 " Run Livestreamer on the current URL
 javascript <<EOF
 function livestreamer(arg) {
