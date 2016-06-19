@@ -285,6 +285,8 @@ for_window [class="feh" title="feh \[thumbnail mode\]"] splitv
 for_window [class="feh" title=".*\..*"] resize grow height 0 px or 40 ppt
 
 exec tilda
+exec STEAM_FRAME_FORCE_CLOSE=1 steam -silent
+
 exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat weechat"
 
 exec pidgin
