@@ -53,7 +53,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split container
-bindsym $mod+x exec --no-startup-id ~/.i3/i3-autosplit
+bindsym $mod+x exec --no-startup-id ~/.config/i3/i3-autosplit
 bindsym $mod+BackSpace open
 
 # enter fullscreen mode for the focused container
@@ -290,5 +290,5 @@ exec STEAM_FRAME_FORCE_CLOSE=1 steam -silent
 exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat weechat"
 
 exec pidgin
-exec_always ~/.i3/i3-autoname-workspaces.py &
-exec_always ~/.i3/i3blocks-title &
+exec_always ~/.config/i3/i3-autoname-workspaces.py &
+exec_always ~/.config/i3/i3blocks-title &
