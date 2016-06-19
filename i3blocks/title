@@ -4,7 +4,7 @@ import sys
 import os
 import subprocess
 import html
-sys.path.append(os.path.expanduser('~/.i3'))
+sys.path.append(os.path.expanduser('~/.config/i3'))
 from winicon import icon_for_window
 
 i3 = i3ipc.Connection()
