@@ -208,16 +208,26 @@ bar {
 		status_command i3blocks
 		separator_symbol " "
     colors {
-        background #000000
-        statusline #ffffff
-        separator #666666
+        background #111111
+        statusline #fefefe
+        separator #555753
 
-        focused_workspace  #4c7899 #285577 #ffffff
-        active_workspace   #333333 #5f676a #ffffff
-        inactive_workspace #333333 #222222 #888888
-        urgent_workspace   #2f343a #900000 #ffffff
+        #class              border  backgr  text
+        focused_workspace   #fefefe #fefefe #000000
+        active_workspace    #eeeeec #eeeeec #555753
+        inactive_workspace  #555753 #555753 #d3d7cf
+        urgent_workspace    #3465a4 #3465a4 #fefefe
     }
 }
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #d3d7cf #fefefe #000000 #555753   #fefefe
+client.focused_inactive #eeeeec #eeeeec #555753 #555753   #111111
+client.unfocused        #555753 #555753 #d3d7cf #555753   #111111
+client.urgent           #3465a4 #3465a4 #fefefe #729fcf   #729fcf
+client.placeholder      #000000 #fefefe #000000 #555753   #0c0c0c
+
+client.background       #ffffff
 
 new_window pixel 4
 hide_edge_borders vertical
@@ -277,10 +287,3 @@ exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat w
 exec pidgin
 exec_always ~/.i3/i3-autoname-workspaces.py &
 exec_always ~/.i3/i3blocks-title &
-
-# class                 border  backgr. text    indicator
-client.focused          #4c7899 #285577 #ffffff #2e9ef4
-client.focused_inactive #333333 #5f676a #ffffff #484e50
-client.unfocused        #333333 #222222 #888888 #292d2e
-client.urgent           #2f343a #900000 #ffffff #900000
-#client.placeholder      #000000 #0c0c0c #ffffff #000000
