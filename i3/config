@@ -28,13 +28,8 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-#bindsym $mod+d exec dmenu_run
 bindsym $mod+Shift+d exec --no-startup-id "rofi -show run -terminal $terminal"
 bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="rofi -dmenu -p 'run:'" --display-binary --term $terminal
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -130,8 +125,6 @@ bindsym $mod+Shift+0 move container to workspace number 10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Shift+e exec i3-msg exit
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 1dB- && pkill -RTMIN+10 i3blocks
@@ -144,7 +137,6 @@ bindsym XF86KbdBrightnessDown exec --no-startup-id xbacklight -dec 5
 bindsym XF86KbdBrightnessUp exec --no-startup-id xbacklight -inc 5
 
 # resize window (you can also use the mouse for that)
-#mode "" {
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
@@ -170,7 +162,6 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-#bindsym $mod+r mode ""
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -203,24 +194,11 @@ for_window [instance = "LolClient.exe"] move to workspace number 0
 for_window [instance = "League of Legends.exe"] move to workspace number 0
 for_window [instance = "rads_user_kernel.exe"] move to workspace number 0
 
-#exec --no-startup-id "i3-msg 'workspace $WS1; append_layout /home/aneesh/.i3/chromium.json'"
-#exec --no-startup-id "i3-msg 'workspace $WS5; append_layout /home/aneesh/.i3/steam.json'"
-exec --no-startup-id "i3-msg 'workspace $WS1'"
-exec STEAM_FRAME_FORCE_CLOSE=1 steam
-#exec --no-startup-id "ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && steam"
-#exec gvim --name main
-
-#exec termite -t WeeChat --name Chat -e "tmux new-session -A -n Chat -s Chat weechat; new-window -d -n Finch finch"
 exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat weechat"
 
 exec pidgin
 exec_always ~/.i3/i3-autoname-workspaces.py &
 exec_always ~/.i3/i3blocks-title &
-#exec apulse32 skype
-#client.focused #0088CC #0088CC #ffffff #dddddd
-#client.focused_inactive #333333 #333333 #888888 #292d2e
-#client.unfocused #333333 #333333 #888888 #292d2e
-#client.urgent #2f343a #900000 #ffffff #900000
 
 # class                 border  backgr. text    indicator
 client.focused          #4c7899 #285577 #ffffff #2e9ef4
