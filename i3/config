@@ -16,9 +16,8 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:sans-serif,FontAwesome 12
 
+# mouse
 focus_follows_mouse no
-
-# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
@@ -133,31 +132,59 @@ bindsym XF86KbdBrightnessDown exec --no-startup-id xbacklight -dec 5
 bindsym XF86KbdBrightnessUp exec --no-startup-id xbacklight -inc 5
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
+mode " resize" {
         bindsym h resize shrink width 10 px or 5 ppt
         bindsym j resize grow height 10 px or 5 ppt
         bindsym k resize shrink height 10 px or 5 ppt
         bindsym l resize grow width 10 px or 5 ppt
 
-        # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 5 ppt
         bindsym Down resize grow height 10 px or 5 ppt
         bindsym Up resize shrink height 10 px or 5 ppt
         bindsym Right resize grow width 10 px or 5 ppt
 
-        # back to normal: Enter or Escape
+        # back to normal
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym Ctrl+bracketleft mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode " resize"
+
+mode " focus" {
+        bindsym h focus left
+        bindsym j focus down
+        bindsym k focus up
+        bindsym l focus right
+        bindsym bracketright workspace next
+        bindsym bracketleft workspace prev
+
+        bindsym Left focus left
+        bindsym Down focus down
+        bindsym Up focus up
+        bindsym Right focus right
+
+        # back to normal
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym Ctrl+bracketleft mode "default"
+}
+
+bindsym $mod+g mode " focus"
+
+mode "twmn" {
+		bindsym o exec --no-startup-id twmnc --remote activate
+		bindsym n exec --no-startup-id twmnc --remote next
+        bindsym p exec --no-startup-id twmnc --remote previous
+		bindsym h exec --no-startup-id twmnc --remote hide
+
+        # back to normal
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym Ctrl+bracketleft mode "default"
+}
+
+bindsym $mod+period mode "twmn"
 
 bar {
 		position top
