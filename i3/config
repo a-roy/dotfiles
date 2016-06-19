@@ -249,6 +249,12 @@ for_window [class="Termite" title="(.* - )?mpsyt"] title_format " %title"
 for_window [class="Termite" title="rtv \d\.\d\.\d"] title_format " %title"
 for_window [class="Termite" title="\w+@\w+:.*"] title_format " %title"
 
+no_focus [class="feh"]
+no_focus [class="mpv"]
+for_window [class="mpv" instance="mpsyt"] move to mark mpsyt, floating enable
+for_window [class="feh" title="feh \[thumbnail mode\]"] splitv
+for_window [class="feh" title=".*\..*"] resize grow height 0 px or 40 ppt
+
 exec termite -t WeeChat --name Chat -e "tmux new-session -A -n WeeChat -s Chat weechat"
 
 exec pidgin
