@@ -106,9 +106,6 @@ Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': ['latex'] }
 Plug 'majutsushi/tagbar'
 "Plug 'scrooloose/syntastic'
 "Plug 'scrooloose/nerdcommenter'
-if !s:Nvim
-	Plug 'rosenfeld/conque-term'
-endif
 Plug 'glsl.vim'
 " }}} General
 " {{{ Lisp/Scheme
@@ -194,16 +191,6 @@ let g:shell_fullscreen_always_on_top = 0
 " {{{ unite
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " }}} unite
-"{{{ ConqueTerm
-let g:ConqueTerm_ToggleKey = '' " F8
-let g:ConqueTerm_ExecFileKey = '' " F11
-let g:ConqueTerm_SendFileKey = '' " F10
-let g:ConqueTerm_SendVisKey = '' " F9
-let g:ConqueTerm_InsertOnEnter = 1
-let g:ConqueTerm_CloseOnEnd = 1
-let g:ConqueTerm_CWInsert = 1
-"let g:ConqueTerm_StartMessages = 1
-"}}} ConqueTerm
 " {{{ Tagbar
 if s:MSWindows
 	let g:tagbar_ctags_bin = 'C:\ctags58\ctags.exe'
@@ -321,10 +308,6 @@ map  B :Unite buffer file/async -smartcase<CR>
 " F5 : implemented per filetype
 nmap <F7>   :TagbarToggle<CR>
 map  <C-CR> :Open<CR>
-" F8 : ConqueTerm_ToggleKey
-" F9 : ConqueTerm_SendVisKey
-" F10 : ConqueTerm_SendFileKey
-" F11 : ConqueTerm_ExecFileKey
 
 inoremap <C-B> <Left>
 inoremap <C-F> <Right>
