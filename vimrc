@@ -135,6 +135,7 @@ set ruler
 set hlsearch
 set laststatus=2
 set noshowmode
+set title
 execute "set colorcolumn=+" . join(range(1,255), ',+')
 
 " Cusor shapes in terminal
