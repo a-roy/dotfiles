@@ -64,7 +64,12 @@ let g:clang_enable_format_command = 0
 Plug 'rhysd/vim-clang-format'
 " {{{ File Management
 Plug 'Shougo/vimproc.vim'
+if s:Linux
+Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+Plug 'junegunn/fzf.vim'
+else
 Plug 'Shougo/unite.vim'
+endif
 " }}} File Management
 " {{{ Version Control
 Plug 'tpope/vim-fugitive'
