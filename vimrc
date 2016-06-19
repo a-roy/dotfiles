@@ -306,7 +306,12 @@ let mapleader=","
 
 map gb :bnext<CR>
 map gB :bprevious<CR>
-map  B :Unite buffer file/async -smartcase<CR>
+if s:Linux
+map <Leader>ff :Files<CR>
+map <Leader>fb :Buffers<CR>
+else
+map  B :Unite buffer file/async directory -smartcase<CR>
+endif
 " F5 : implemented per filetype
 nmap <F7>   :TagbarToggle<CR>
 map  <C-CR> :Open<CR>
