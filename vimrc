@@ -62,6 +62,7 @@ let g:clang_cpp_options = '-std=c++11 -x c++'
 let g:clang_verbose_pmenu = 1
 let g:clang_enable_format_command = 0
 Plug 'rhysd/vim-clang-format'
+" }}} General Editing
 " {{{ File Management
 Plug 'Shougo/vimproc.vim'
 if s:Linux
@@ -104,7 +105,7 @@ Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': ['latex'] }
 " {{{ General
 Plug 'majutsushi/tagbar'
 "Plug 'scrooloose/syntastic'
-Plug 'scrooloose/nerdcommenter'
+"Plug 'scrooloose/nerdcommenter'
 if !s:Nvim
 	Plug 'rosenfeld/conque-term'
 endif
