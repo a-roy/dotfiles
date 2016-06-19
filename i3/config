@@ -198,10 +198,10 @@ for_window [class = "Skype"] move to workspace number 3
 for_window [class = "Steam" title="Steam - Update News"] floating enable
 for_window [title = "Page\(s\) Unresponsive"] floating enable
 for_window [class = "Yad"] floating enable
-assign [instance = "LoLPatcherUx.exe"] $WS0
-assign [instance = "LolClient.exe"] $WS0
-assign [instance = "League of Legends.exe"] $WS0
-assign [instance = "rads_user_kernel.exe"] $WS0
+for_window [instance = "LoLPatcherUx.exe"] move to workspace number 0
+for_window [instance = "LolClient.exe"] move to workspace number 0
+for_window [instance = "League of Legends.exe"] move to workspace number 0
+for_window [instance = "rads_user_kernel.exe"] move to workspace number 0
 
 #exec --no-startup-id "i3-msg 'workspace $WS1; append_layout /home/aneesh/.i3/chromium.json'"
 #exec --no-startup-id "i3-msg 'workspace $WS5; append_layout /home/aneesh/.i3/steam.json'"
