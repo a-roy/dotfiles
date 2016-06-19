@@ -105,7 +105,7 @@ map ge :tabgroups switch
 map <C-S-e> :tabgroups list<CR>
 
 " User-defined commands
-command rpcontinued javascript rpcontinued.overlay.openToolbarPopup()
+command rpcontinued javascript rpcontinued.overlay.openMenu()
 command mpv -nargs=? javascript mpv(<q-args>)
 command livestreamer -nargs=1 javascript livestreamer(<q-args>)
 
