@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+
+from imgurpython import ImgurClient
+import re
+import argparse
+import subprocess
+import os
+
+client_id = 'ff865feb31bf818'
+client_secret = '862886122978b62b3cd28f117b8f5a4306e63e30'
+
+re_album = re.compile(r'https?://(?:\w\.)?imgur\.com/a/(\w+)(?:\?.*)?')
+re_image = re.compile(r'https?://(?:\w\.)?imgur\.com/(\w+)(?:\.\w+)?(?:\?.*)?')
+re_gallery = re.compile(r'https?://(?:\w\.)?imgur\.com/gallery/(\w+)(?:\?.*)?')
+feh_info = 'cat $(printf "/tmp/%%s.txt" "$(basename %f)") 2>/dev/null'
+
+def write_caption(image):
+    f = open('/tmp/{}.txt'.format(os.path.basename(image.link)), 'w')
+    if image.title:
+        f.write(image.title + '\n')
+    if image.description:
+        f.write(image.description)
+    f.close()
+
+if __name__ == '__main__':
+    client = ImgurClient(client_id, client_secret)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', nargs=1)
+    args = parser.parse_args()
+    url = args.url[0]
+
+    is_album = False
+    img_id = None
+    m = re_gallery.fullmatch(url)
+    if m != None:
+        img_id = m.group(1)
+        is_album = client.gallery_item(img_id).is_album
+    else:
+        m = re_album.fullmatch(url)
+        if m != None:
+            img_id = m.group(1)
+            is_album = True
+        else:
+            m = re_image.fullmatch(url)
+            if m != None:
+                img_id = m.group(1)
+                is_album = False
+    if is_album:
+        images = client.get_album_images(img_id)
+        static = [i.link for i in images if not i.animated]
+        anim   = [i.link for i in images if i.animated]
+        for i in images:
+            if not i.animated and (i.title or i.description):
+                write_caption(i)
+        if len(static) > 0:
+            subprocess.Popen(['feh', '-t', '--info', feh_info] + [i for i in static])
+        if len(anim) > 0:
+            subprocess.Popen(['mpv'] + [i for i in anim])
+    elif img_id:
+        image = client.get_image(img_id)
+        link = image.link
+        if image.animated:
+            if link.endswith('.gif'):
+                link += 'v'
+            subprocess.Popen(['mpv', link])
+        else:
+            args = ['feh']
+            if image.title or image.description:
+                write_caption(image)
+                args.extend(['--info', feh_info])
+            args.append(link)
+            subprocess.Popen(args)
+    else:
+        subprocess.Popen(['firefox', url])
