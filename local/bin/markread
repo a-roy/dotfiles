@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+tmsu tag "$1" read && notify-send "$(basename "$1")" 'marked as read.'
