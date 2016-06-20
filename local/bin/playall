@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+MPVOPT=
+while getopts ":hs:a:l:" opt; do
+	case $opt in
+		h)
+			MPVOPT=$MPVOPT" --audio-device=alsa/hdmi:CARD=HDMI,DEV=1"
+			;;
+		l)
+			MPVOPT=$MPVOPT" --alang=$OPTARG"
+			;;
+		a)
+			MPVOPT=$MPVOPT" --aid=$OPTARG"
+			;;
+		s)
+			MPVOPT=$MPVOPT" --sid=$OPTARG"
+			;;
+	esac
+done
+
+#find "${@:$OPTIND:1}" -name '*.avi' -or -name '*.mkv' -or -name '*.mp4' -or -name '*.flv' | sort \
+#	>mpv_play.txt
+find "${@:$OPTIND:1}" -name '*.avi' -or -name '*.mkv' -or -name '*.mp4' \
+	-or -name '*.flv' | sort | mpv $MPVOPT --playlist -
+#rm mpv_play.txt
