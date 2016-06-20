@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+
+from os.path import expanduser
+from glob import glob
+from pyparsing import *
+
+if __name__ == '__main__':
+    dic = Forward()
+    string = QuotedString('"')
+    braces = Suppress('{') + dic + Suppress('}')
+    dic << dictOf(string, (string | braces))
+
+    dirs = [expanduser('~/.steam/steam/steamapps/'),
+            '/data/SteamLibrary_linux/steamapps/']
+    files = []
+    for dir in dirs:
+        files = files + glob(dir + 'appmanifest_*.acf')
+    games = {}
+    for acf in files:
+        with open(acf) as f:
+            s = f.read()
+            a = dic.parseString(s).asDict()
+            state = a['AppState']
+            games[state['name']] = state
+
+    for name, state in sorted(games.items()):
+        print('%s\t%s' % (state['appid'], name))
