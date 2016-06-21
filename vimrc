@@ -15,9 +15,8 @@ set nocompatible
 
 " {{{ Vim-plug
 if empty(glob(vimdir . '/autoload/plug.vim'))
-  execute '!curl -fLo ' . vimdir . '/autoload/plug.vim --create-dirs' .
-    \ silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  execute '!curl -fLo ' . vimdir . '/autoload/plug.vim --create-dirs ' .
+    \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
