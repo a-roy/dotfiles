@@ -31,28 +31,51 @@ browser = urlmenu
 [colors]
 
 # --- Muse ---
-foreground      = #000000
-foreground_bold = #000000
-cursor          = #000000
+#foreground      = #000000
+#foreground_bold = #000000
+#cursor          = #000000
+#background      = #ffffff
+
+#color0  = #2e3436
+#color8  = #555753
+#color1  = #a31604
+#color9  = #c60001
+#color2  = #447241
+#color10 = #27a343
+#color3  = #c1951a
+#color11 = #d5a30e
+#color4  = #425387
+#color12 = #4a5a8d
+#color5  = #965d98
+#color13 = #893c8c
+#color6  = #06989a
+#color14 = #12bccb
+#color7  = #d3d7cf
+#color15 = #eeeeec
+
+# --- Numix Darkest ---
+foreground      = #101010
+foreground_bold = #101010
+cursor          = #101010
+#background      = #101010
 background      = #ffffff
 
-color0  = #2e3436
-color8  = #555753
-color1  = #a31604
-color9  = #c60001
-color2  = #447241
-color10 = #27a343
-color3  = #c1951a
-color11 = #d5a30e
-color4  = #425387
-color12 = #4a5a8d
-color5  = #965d98
-color13 = #893c8c
-color6  = #06989a
-color14 = #12bccb
-color7  = #d3d7cf
-color15 = #eeeeec
-
+color0  = #555555
+color8  = #888888
+color1  = #9c3528
+color9  = #d64937
+color2  = #61bc3b
+color10 = #86df5d
+color3  = #f3b43a
+color11 = #fdd75a
+color4  = #0d68a8
+color12 = #0f75bd
+color5  = #744560
+color13 = #9e5e83
+color6  = #288e9c
+color14 = #37c3d6
+color7  = #a2a2a2
+color15 = #f9f9f9
 
 color16 = #000000
 color17 = #00005f
