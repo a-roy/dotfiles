@@ -1,22 +1,40 @@
+#define FG_COLOR #cbcbcb
+#define FG_EMPH  #ffffff
+#define BG_COLOR #333333
+#define BG_EMPH  #d6afb6
+#define BG_EMPHD #ac6d76
+#define BG_FOCUS #7a6795
+#define BG_URGE  #f69e61
+#define BG_LIGHT #cbcbcb
+! Extra colors:
+! 757575 darker gray fg
+! f99744 light orange
+! 7a2f34 dark pink
+! 4d3242 dark purple
+! ad8aa6 light purple
+
+user.color.fg-normal: FG_COLOR
+user.color.fg-emph: FG_EMPH
+user.color.bg-normal: BG_COLOR
+user.color.bg-emph: BG_EMPH
+user.color.bg-emphd: BG_EMPHD
+user.color.bg-focus: BG_FOCUS
+user.color.bg-urgent: BG_URGE
+user.color.bg-light: BG_LIGHT
+
 rofi.color-enabled: true
 ! State:           'bg',    'fg',    'bgalt', 'hlbg',  'hlfg'
-rofi.color-normal: #111111, #d3d7cf, #111111, #fefefe, #000000
-rofi.color-urgent: #990000, #fce94f, #990000, #990000, #fefefe
-rofi.color-active: #555753, #fefefe, #555753, #3465a4, #fefefe
+rofi.color-normal: BG_COLOR,FG_COLOR,BG_COLOR,BG_EMPH, FG_EMPH
+rofi.color-urgent: BG_URGE, FG_EMPH, BG_URGE, BG_EMPH, FG_EMPH
+rofi.color-active: BG_FOCUS,FG_EMPH, BG_FOCUS,BG_EMPHD,FG_EMPH
 !                  'bg',    'border'
-rofi.color-window: #111111, #d3d7cf
-!rofi.padding: 1
-!rofi.lines: 10
+rofi.color-window: BG_COLOR,FG_COLOR
 rofi.borderwidth: 0
-!rofi.opacity: 100
 rofi.font: Monospace 11
 rofi.location: 1
-rofi.yoffset: 22
-!rofi.xoffset: 0
+rofi.yoffset: 29
 rofi.width: 100
-!rofi.fixed_num_lines: 1
-!rofi.hmode: false
-!rofi.terminal: termite
-!rofi.ssh-set-title: false
-rofi.modi: window,run,workspace:rofi_i3_workspace.sh,move to workspace:rofi_i3_move.sh
+rofi.terminal: termite
+!rofi.modi: window,run,workspace:rofi_i3_workspace.sh,move to workspace:rofi_i3_move.sh
+rofi.modi: window,run
 rofi.separator-style: solid
