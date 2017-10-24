@@ -3,17 +3,21 @@ let s:Linux = system("uname") == "Linux\n"
 let s:MSWindows = has("win32") || has("win64")
 let s:Cygwin = has("win32unix")
 let s:Nvim = has("nvim")
+let s:WSL = s:Linux && strridx($PATH, "Windows/System32") >= 0
 
 let vimdir = split(&rtp, ',')[0]
 
 if s:Nvim
-	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
 set nocompatible
 
-" {{{ Vim-plug
+let mapleader=','
+let maplocalleader=' '
+
+" Plugins {{{
 if empty(glob(vimdir . '/autoload/plug.vim'))
   execute '!curl -fLo ' . vimdir . '/autoload/plug.vim --create-dirs ' .
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -22,121 +26,177 @@ endif
 
 call plug#begin(vimdir . '/plugged')
 
-" {{{ GUI
+" GUI {{{
 Plug 'jonathanfilip/vim-lucius'
 Plug 'iissnan/tangoX'
-Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" }}} GUI
-" {{{ General Editing
+  if s:Linux && !s:WSL
+    let g:airline_powerline_fonts = 1
+  else
+    let g:airline_powerline_fonts = 0
+  endif
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tagbar#enabled = 1
+  " Some airline themes copy colors from the active colorscheme:
+  " hybrid, lucius, monochrome, tomorrow, zenburn
+  "let g:airline_theme = "zenburn"
+  let g:airline_theme = "lucius"
+  if s:WSL
+    call airline#parts#define_accent('mode', 'none')
+  endif
+" }}}
+" General Editing {{{
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-shell'
+  " :h shell.txt
+  map  <C-CR> :Open<CR>
+  let g:shell_fullscreen_items='mT'
+  let g:shell_fullscreen_always_on_top = 0
 Plug 'Lokaltog/vim-easymotion'
-Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'myusuf3/numbers.vim'
 Plug 'Konfekt/FastFold'
+Plug 'sjl/gundo.vim'
+  nmap <Leader>u :GundoToggle<CR>
 if s:Nvim
-Plug 'Shougo/deoplete.nvim'
-let g:deoplete#enable_at_startup = 1
+  Plug 'Shougo/deoplete.nvim'
+    let g:deoplete#enable_at_startup = 1
 else
-Plug 'Shougo/neocomplete.vim'
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-if !exists('g:neocomplete#force_omni_input_patterns')
-	let g:neocomplete#force_omni_input_patterns = {}
+  Plug 'Shougo/neocomplete.vim'
+    " :h neocomplete-variables
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.c =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 endif
-
-let g:neocomplete#force_omni_input_patterns.c =
-	\ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-	\ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-endif
+  " :h neocomplete-examples
+  augroup complete_fn
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  augroup END
 Plug 'justmao945/vim-clang'
-let g:clang_auto = 0
-let g:clang_c_completeopt = 'menuone'
-let g:clang_cpp_completeopt = 'menuone'
-let g:clang_cpp_options = '-std=c++11 -x c++'
-let g:clang_verbose_pmenu = 1
-let g:clang_enable_format_command = 0
+  " :h clang-commands
+  augroup clang_cmd
+    autocmd!
+    autocmd FileType c,cpp map <buffer> <silent> <Leader>cc :ClangCloseWindow<CR>
+    autocmd FileType c,cpp map <buffer> <silent> <Leader>cs :ClangSyntaxCheck<CR>
+  augroup END
+  " :h clang-variables
+  let g:clang_auto = 0
+  let g:clang_c_completeopt = 'menuone'
+  let g:clang_cpp_completeopt = 'menuone'
+  let g:clang_cpp_options = '-std=c++11 -x c++'
+  let g:clang_verbose_pmenu = 1
+  let g:clang_enable_format_command = 0
 Plug 'rhysd/vim-clang-format'
-" }}} General Editing
-" {{{ File Management
+" }}}
+" File Management {{{
 Plug 'Shougo/vimproc.vim'
+Plug 'vimwiki/vimwiki'
 if s:Linux
-Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
-Plug 'junegunn/fzf.vim'
-else
-Plug 'Shougo/unite.vim'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+  Plug 'junegunn/fzf.vim'
+  map <Leader>ff :Files<CR>
+  map <Leader>fb :Buffers<CR>
+" TODO investigate alternative for Windows (fzf/unite/denite)
 endif
-" }}} File Management
-" {{{ Version Control
+" }}}
+" Version Control {{{
 Plug 'tpope/vim-fugitive'
-" }}} Version Control
-" {{{ Markdown
-if s:Nvim
-"Plug 'rhysd/nyaovim-markdown-preview'
-"let g:markdown_preview_auto=1
-"let g:markdown_preview_eager=1
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    !cargo build --release
-    UpdateRemotePlugins
-  endif
-endfunction
-
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-let g:markdown_composer_browser = 'vimb'
-elseif s:Unix
-Plug 'suan/vim-instant-markdown'
-elseif s:MSWindows
-Plug 'euclio/vim-instant-markdown'
-endif
-" }}} Markdown
-" {{{ LaTeX
-" TODO get something to work, and also not occupy key bindings
-"Plug 'git://git.code.sf.net/p/vim-latex/vim-latex'
-"Plug 'coot/atp_vim'
-Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': ['latex'] }
-" }}} LaTeX
-" {{{ Coding
-" {{{ General
-Plug 'majutsushi/tagbar'
-"Plug 'scrooloose/syntastic'
-"Plug 'scrooloose/nerdcommenter'
-Plug 'glsl.vim'
-" }}} General
-" {{{ Lisp/Scheme
-Plug 'kovisoft/slimv'
-" }}} Lisp/Scheme
-" {{{ C/C++
+" }}}
+" Languages {{{
+Plug 'sheerun/vim-polyglot'
+  " TODO polyglot's latex plugin is LaTeX-Box, re-enable if you need it
+  let g:polyglot_disabled = ['latex']
+" C/C++
 "Plug 'refactor'
-" http://cscope.sourceforge.net/cscope_vim_tutorial.html
-" http://www.vim.org/scripts/script.php?script_id=2087
-" http://www.vim.org/scripts/script.php?script_id=2699
-" http://www.reddit.com/r/vim/comments/e99h9/is_there_a_way_to_change_the_way_and_move/c16duif
-" https://code.google.com/p/lh-vim/wiki/lhCpp
-" }}} C/C++
-if s:Nvim
-Plug 'bfredl/nvim-ipy'
+" LaTeX
+" TODO Check that vimtex works in Windows and WSL
+" vimtex author on LaTeX plugins: https://vi.stackexchange.com/a/5747
+Plug 'lervag/vimtex'
+  " :h vimtex-options
+  if s:Linux && has("X11")
+    let g:vimtex_view_method = 'zathura'
+  elseif s:WSL
+    " TODO TEST THIS
+    let g:vimtex_view_general_viewer = 'cmd.exe /c start'
+  endif
+" Markdown
+if s:Nvim || v:version >= 800
+  function! BuildComposer(info)
+    if a:info.status != 'unchanged' || a:info.force
+      if has('nvim')
+        !cargo build --release
+      else
+        !cargo build --release --no-default-features --features json-rpc
+      endif
+    endif
+  endfunction
+  Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+    let g:markdown_composer_browser = 'qutebrowser --target window'
 endif
-" }}} Coding
+" }}}
+" General coding {{{
+Plug 'majutsushi/tagbar'
+  nmap <Leader>t :TagbarToggle<CR>
+  " :h tagbar-configuration
+  if s:MSWindows
+    let g:tagbar_ctags_bin = 'C:\ctags58\ctags.exe'
+  endif
+
+  let g:tagbar_type_markdown = {
+    \ 'ctagstype': 'markdown',
+    \ 'ctagsbin' : '~/markdown2ctags/markdown2ctags.py',
+    \ 'ctagsargs' : '-f - --sort=yes',
+    \ 'kinds' : [
+      \ 's:sections',
+      \ 'i:images'
+    \ ],
+    \ 'sro' : '|',
+    \ 'kind2scope' : {
+      \ 's' : 'section',
+    \ },
+    \ 'sort': 0,
+  \ }
+if s:Nvim || v:version >= 800
+  Plug 'w0rp/ale'
+else
+  Plug 'scrooloose/syntastic'
+    let g:syntastic_cpp_checkers = ['gcc']
+    let g:syntastic_cpp_check_header = 1
+    let g:syntastic_cpp_auto_refresh_includes = 1
+    let g:syntastic_cpp_compiler = 'clang++'
+endif
+" }}}
 
 call plug#end()
-" }}} Vim-plug
-" {{{ Configuration
-" {{{ Global settings
-
-" Visual aids
+" }}}
+" General configuration {{{
+" Global settings {{{
 set number relativenumber
 set ruler
 set hlsearch
 set laststatus=2
 set noshowmode
 set title
+set textwidth=80
 execute "set colorcolumn=+" . join(range(1,255), ',+')
-
+set tabstop=4 expandtab shiftwidth=4 softtabstop=4
+set foldmethod=syntax foldminlines=4
+set backspace=indent,eol,start
+set hidden
+" }}}
+" Terminal {{{
 " Cusor shapes in terminal
 " 1 or 0 -> blinking block
 " 2 -> solid block
@@ -145,183 +205,85 @@ execute "set colorcolumn=+" . join(range(1,255), ',+')
 " 5 -> blinking vertical bar
 " 6 -> solid vertical bar
 if s:Cygwin
-	let &t_ti .= "\e[1 q"
-	let &t_SI .= "\e[5 q"
-	let &t_SR .= "\e[3 q"
-	let &t_EI .= "\e[1 q"
-	let &t_te .= "\e[0 q"
+  let &t_ti .= "\e[1 q"
+  let &t_SI .= "\e[5 q"
+  let &t_SR .= "\e[3 q"
+  let &t_EI .= "\e[1 q"
+  let &t_te .= "\e[0 q"
 elseif &term =~ '^xterm\|rxvt'
-	let &t_SI .= "\<Esc>[5 q"
-	let &t_SR .= "\<Esc>[3 q"
-	let &t_EI .= "\<Esc>[1 q"
+  let &t_SI .= "\<Esc>[5 q"
+  let &t_SR .= "\<Esc>[3 q"
+  let &t_EI .= "\<Esc>[1 q"
 endif
 if !has("gui_running")
-	set ttimeoutlen=0
+  set ttimeoutlen=0
+  set mouse=a
 endif
-
-" Set color scheme
-if s:Nvim
-	colorscheme tangoX
-	highlight ColorColumn guibg=WhiteSmoke
+" }}}
+" Colors {{{
+if has("termguicolors")
+  set termguicolors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  colorscheme tangoX
+  highlight ColorColumn guibg=WhiteSmoke
 else
-	colorscheme lucius
-	LuciusWhite
+  colorscheme lucius
+  LuciusWhite
 endif
-
-" Tab options
-set tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
-
-" Folding options
-set foldmethod=syntax foldminlines=4
-
-" Backspace behavior
-set backspace=indent,eol,start
-
-" Allow modified buffers to be hidden
-set hidden
-
-" }}} Global settings
-" {{{ Plugin configuration
-" {{{ shell.vim
-" hide menu and toolbar but not tab bar
-let g:shell_fullscreen_items='mT'
-" don't force Vim on top
-let g:shell_fullscreen_always_on_top = 0
-" }}} shell.vim
-" {{{ unite
-if !s:Linux
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-endif
-" }}} unite
-" {{{ Tagbar
-if s:MSWindows
-	let g:tagbar_ctags_bin = 'C:\ctags58\ctags.exe'
-endif
-
-let g:tagbar_type_markdown = {
-    \ 'ctagstype': 'markdown',
-    \ 'ctagsbin' : '~/markdown2ctags/markdown2ctags.py',
-    \ 'ctagsargs' : '-f - --sort=yes',
-    \ 'kinds' : [
-        \ 's:sections',
-        \ 'i:images'
-    \ ],
-    \ 'sro' : '|',
-    \ 'kind2scope' : {
-        \ 's' : 'section',
-    \ },
-    \ 'sort': 0,
-\ }
-" }}} Tagbar
-" {{{ LaTeX Suite
-let g:tex_flavor='latex'
-let g:Tex_DefaultTargetFormat = 'pdf'
-if has("win32")
-	let g:Tex_ViewRule_pdf =
-		\ 'SumatraPDF -reuse-instance -inverse-search
-		\ "gvim -c \":RemoteOpen +\%l \%f\""'
-	let g:Tex_CompileRule_pdf =
-		\ 'pdflatex -synctex=-1 -src-specials -interaction=nonstopmode $*'
-endif
-" }}} LaTeX Suite
-" {{{ LatexBox
-let g:LatexBox_latexmk_async=1
-let g:LatexBox_latexmk_preview_continuously=1
-" }}} LatexBox
-" {{{ Automatic TeX Plugin
-"autocmd BufReadPre *.tex let b:atp_TexFlavor="latex"
-if s:Linux
-	autocmd BufReadPre *.tex let b:atp_Viewer="zathura"
-endif
-" }}} Automatic TeX Plugin
-" {{{ Rainbow Parentheses
-" options
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle = 0
-" NOTE: see further configuration under Autocommands
-" }}} Rainbow Parentheses
-" {{{ Syntastic
-"let g:syntastic_cpp_checkers = ['gcc']
-"let g:syntastic_cpp_check_header = 1
-"let g:syntastic_cpp_auto_refresh_includes = 1
-"let g:syntastic_cpp_compiler = 'clang++'
-" }}} Syntastic
-" {{{ Slimv
-let g:slimv_ctags=1
-" }}} Slimv
-" {{{ vim-airline
-" TODO powerline symbols on windows
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-" Some airline themes copy colors from the active colorscheme:
-" hybrid, lucius, monochrome, tomorrow, zenburn
-let g:airline_theme = "zenburn"
-" }}} vim-airline
-" }}} Plugin configuration
-" {{{ Ex commands
+" }}}
+" Ex commands {{{
 if !exists(":DiffOrig")
-    command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis |
-		\ windmcd p | diffthis
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis |
+    \ windmcd p | diffthis
 endif
-" }}} Ex commands
-" {{{ Autocommands
-autocmd FileType vim set foldmethod=marker foldminlines=1
-autocmd FileType * normal zR
+" }}}
+" Autocommands {{{
+" Open folds when opening a file
+augroup folding
+  autocmd!
+  autocmd FileType * normal! zR
+augroup END
+" doxygen comments for C/C++
+augroup syntax_mod
+  autocmd!
+  autocmd FileType c,cpp set comments^=://!
+augroup END
 
 if s:Nvim
-	augroup vimrc_aucmd
-		autocmd!
-    	autocmd CursorHold * rshada|wshada
-	augroup END
+  augroup vimrc_aucmd
+    autocmd!
+    autocmd CursorHold * rshada|wshada
+  augroup END
 endif
-
-" Turn on word wrapping
-autocmd BufRead,BufNewFile *.txt,*.tex
-	\ set wrap linebreak nolist textwidth=0 wrapmargin=0
-
-" Auto-compile when saving
-"autocmd BufWritePost *.tex silent call Tex_RunLaTeX()
-"autocmd BufWritePost *.tex silent !pkill -USR1 xdvi.bin
-autocmd FileType tex set textwidth=80
-autocmd FileType c,cpp set comments^=://!
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" Treat Racket as Scheme
-autocmd BufReadPost *.rkt,*.rktl set filetype=scheme
-set lispwords+=
-	\public-method,override-method,private-method,syntax-case,syntax-rules
-set lispwords+=define-type,type-case
-" Rainbow Parentheses
-autocmd VimEnter * RainbowParentheses
-autocmd ColorScheme * RainbowParentheses
-let g:rainbow#pairs = [['(', ')'], ['[', ']']]
-" }}} Autocommands
-" {{{ Custom keybindings
-let mapleader=","
+" }}}
+" Keybindings {{{
+" Plugin bindings
+" Actual mappings appear near plugin declarations
+" :h surround-mappings
+" :h vimtex-default-mappings
+" cs   - vim-surround and vimtex
+" ds   - vim-surround and vimtex
+" ts   - vimtex
+" ys   - vim-surround
+" K    - vimtex
+" [    - vimtex
+" ]    - vimtex
+" ,c   - clang
+" ,f   - fzf or unite
+" ,t   - tagbar
+" ,u   - gundo
+" <s>l - vimtex
+" <F7> - vimtex
 
 map <C-Z> <Nop>
 map gb :bnext<CR>
 map gB :bprevious<CR>
-if s:Linux
-map <Leader>ff :Files<CR>
-map <Leader>fb :Buffers<CR>
-else
-map  B :Unite buffer file/async directory -smartcase<CR>
-endif
-" F5 : implemented per filetype
-nmap <F7>   :TagbarToggle<CR>
-map  <C-CR> :Open<CR>
 
 inoremap <C-B> <Left>
 inoremap <C-F> <Right>
 inoremap <C-D> <Del>
-inoremap <C-BS> <C-W>
+" }}}
+" }}}
 
-map <silent> <Leader>cc :ClangCloseWindow<CR>
-map <silent> <Leader>cs :ClangSyntaxCheck<CR>
-" }}} Custom keybindings
-" }}} Configuration
+" vim: ts=2 sts=2 sw=2 foldmethod=marker foldminlines=1 foldlevel=0
