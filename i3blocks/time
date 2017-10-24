@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+date '+ %Y-%m-%d   %H:%M:%S'
+[[ $BLOCK_BUTTON == 1 ]] && (galendae &) || exit 0

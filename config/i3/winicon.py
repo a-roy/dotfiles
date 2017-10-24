@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import subprocess
 import re
 
@@ -9,6 +10,7 @@ import re
 #   http://fortawesome.github.io/Font-Awesome/icons/
 FA_ASTERISK = '\uf069'
 FA_BOOK = '\uf02d'
+FA_BUG = '\uf188'
 FA_CHROME = '\uf268'
 FA_CODE = '\uf121'
 FA_COG = '\uf013'
@@ -47,10 +49,11 @@ WINDOW_ICONS = {
     'mail.google.com__mail_u_1': FA_ENVELOPE_O,
     'chromium': FA_CHROME,
     'google-chrome': FA_CHROME,
+    'Firefox': FA_FIREFOX,
+    'qutebrowser': FA_GLOBE,
+    'vimb': FA_GLOBE,
     'Gvim': FA_PENCIL_SQUARE_O,
     'Ario': FA_MUSIC,
-    'Firefox': FA_FIREFOX,
-    'vimb': FA_GLOBE,
     'libreoffice': FA_FILE_TEXT_O,
     'mpv': FA_PLAY_CIRCLE_O,
     'feh': FA_PICTURE_O,
@@ -59,6 +62,7 @@ WINDOW_ICONS = {
     'qt5ct': FA_COG,
     'Pidgin': FA_COMMENT_O,
     'gimp-2.8': FA_PAINT_BRUSH,
+    'Pinta': FA_PAINT_BRUSH,
     'inkscape': FA_PAINT_BRUSH,
     'Blender': FA_CUBE,
     'calibre-gui': FA_BOOK,
@@ -67,23 +71,27 @@ WINDOW_ICONS = {
     'skype': FA_SKYPE,
     'Steam': FA_STEAM,
     'simplenote': FA_STICKY_NOTE_O,
-    'Livestreamer Twitch GUI': FA_TWITCH,
+    'streamlink-twitch-gui': FA_TWITCH,
     'LoLPatcherUx.exe': FA_GAMEPAD,
     'LolClient.exe': FA_GAMEPAD,
+    'LeagueClientUx.exe': FA_GAMEPAD,
+    'BsSendRpt.exe': FA_BUG,
     'tilda': '',
-    'stjerm': ''
+    'stjerm': '',
+    'Galendae': ''
 }
 WINDOW_ICONS_RE = {
+    # Note: ncmpcpp config must change `song_window_title_format` so that it can
+    # be recognized while playing
     'Termite': [
-        (re.compile(r'.* - N?VIM'), FA_PENCIL_SQUARE_O),
+        (re.compile(r'.* - N?VIM\d*'), FA_PENCIL_SQUARE_O),
         (re.compile(r'ranger:.*'), FA_FOLDER_OPEN_O),
         (re.compile(r'WeeChat( \d.\d)?'), FA_HASHTAG),
+        (re.compile(r'(.* - )?ncmpcpp( \d\.\d)?'), FA_MUSIC),
         (re.compile(r'(.* - )?mpsyt'), FA_YOUTUBE_PLAY),
-        (re.compile(r'rtv \d\.\d\.\d'), FA_REDDIT_ALIEN)],
-    #'zathura': [
-    #    (re.compile(r'.*\.pdf'), FA_FILE_PDF_O)],
-    'vimb': [
-        (re.compile(r'Markdown Composer'), FA_FILE_TEXT_O)],
+        (re.compile(r'(.* - )?rtv \d+\.\d+\.\d+'), FA_REDDIT_ALIEN)],
+    'zathura': [
+        (re.compile(r'.*\.pdf'), FA_FILE_PDF_O)],
     'mainwindow.py': [
         (re.compile(r'PlayOnLinux'), FA_GAMEPAD),
         (re.compile(r'PlayOnLinux configuration'), FA_COG)]
@@ -100,21 +108,25 @@ def xprop(win_id, property):
         prop = prop.decode('utf-8')
         return re.findall(r'"((?:[^\\"]|\\\\|\\")*)"', prop)
     except subprocess.CalledProcessError as e:
-        print("Unable to get property for window '%s'" % str(win_id))
+        print("Unable to get property for window '%s'" % str(win_id),
+                file=sys.stderr)
         return None
 
 def icon_for_window(win_id):
     classes = xprop(win_id, 'WM_CLASS')
-    if classes != None and len(classes) > 0:
-        for cls in classes:
-            if cls in WINDOW_ICONS_RE:
-                title = xprop(win_id, 'WM_NAME')
-                if title != None and len(title) > 0:
-                    for exp, icon in WINDOW_ICONS_RE[cls]:
-                        if exp.fullmatch(title[0]) != None:
-                            return icon
+    if classes == None:
+        return ''
+    if len(classes) > 0:
+        for cls in filter(lambda cls: cls in WINDOW_ICONS_RE, classes):
+            title = xprop(win_id, 'WM_NAME')
+            if not title:
+                continue
+            for exp, icon in WINDOW_ICONS_RE[cls]:
+                if exp.fullmatch(title[0]) != None:
+                    return icon
         for cls in classes:
             if cls in WINDOW_ICONS:
                 return WINDOW_ICONS[cls]
-        print('No icon available for window with classes: %s' % str(classes))
+        print('No icon available for window with classes: %s' % str(classes),
+                file=sys.stderr)
     return FA_ASTERISK
