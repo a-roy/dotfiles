@@ -2,23 +2,27 @@
 
 import argparse
 import re
-import subprocess
+import subprocess as proc
 import os
 import sys
+import shlex
 
 handlers = [
-        (re.compile(r'https?://(?:[im]\.)?imgur.com/.+'),
-        'imgur'),
-        (re.compile(r'(.*\.(jpg|png)(:\w+)?(\?\w*)?|'
-            'https://i.reddituploads.com/.*)'), 'feh'),
-        (re.compile(r'.*\.(gifv?|webm|mkv)|https?://gfycat.com/\w+|'
-            'https?://streamable.com/\w+|'
+    (re.compile(r'magnet:.*'), 'magnet'),
+    (re.compile(r'file://.*\.pdf'), 'zathura'),
+    (re.compile(r'https?://(?:[im]\.)?imgur.com/.+'), 'imgur'),
+    (re.compile(r'(.*\.(jpg|png)(:\w+)?(\?\w*)?|'
+                'https://i.reddituploads.com/.*)'), 'feh'),
+    (re.compile(r'.*\.(gifv?|webm|mkv)|https?://gfycat\.com/\w+|'
+            'https?://streamable\.com/\w+|'
             'https?://www\.facebook\.com/\w+/videos/\d+/'), 'mpv'),
-        (re.compile(
-            r'https?://.*youtube\.com/watch\?.+|https?://youtu\.be/.+'),
-        'mpv'),
-        (re.compile(r'.*'), 'firefox'),
-        (re.compile(r'.*'), 'copy')]
+    (re.compile(r'https?://.*youtube\.com/watch\?.+|https?://youtu\.be/.+'),
+     'mpv'),
+    (re.compile(r'https?://v\.redd\.it/\w+'), 'mpv'),
+    (re.compile(r'.*'), 'qutebrowser'),
+    (re.compile(r'.*'), 'qutebrowser --target window'),
+    (re.compile(r'.*'), 'copy'),
+]
 
 # rofi custom command 1 (Alt+1)
 fix_mkd = 10
@@ -34,19 +38,21 @@ def run_menu(url):
         if len(items) == 1:
             output = items[0]
             break
-        result = subprocess.run(
+        result = proc.run(
                 ['rofi', '-dmenu', '-p', 'Open with:', '-mesg', url],
-                input='\n'.join(items).encode(), stdout=subprocess.PIPE)
+                input='\n'.join(items).encode(), stdout=proc.PIPE)
         returncode = result.returncode
         if result.returncode == fix_mkd:
             url = url.rsplit(')', 1)[0]
         output = result.stdout.decode().rstrip()
     if output:
-        cmd = output.split()
+        cmd = shlex.split(output)
+        cmd.append(url)
         try:
-            subprocess.run(cmd + [url], check=True)
-        except subprocess.CalledProcessError:
-            subprocess.run(['notify-send', 'URL ({}) loading failed'.format(url)])
+            proc.run(cmd, stdin=proc.DEVNULL, stdout=proc.DEVNULL,
+                     stderr=proc.DEVNULL, check=True)
+        except proc.CalledProcessError:
+            proc.run(['notify-send', 'URL ({}) loading failed'.format(url)])
 
 def detach():
     # do the UNIX double-fork magic, see Stevens' "Advanced
@@ -75,6 +81,7 @@ def detach():
     except OSError as e:
         print("fork #2 failed: %d (%s)" % (e.errno, e.strerror), file=sys.stderr)
         sys.exit(1)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

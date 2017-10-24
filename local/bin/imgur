@@ -59,12 +59,11 @@ if __name__ == '__main__':
             subprocess.Popen(['mpv'] + [i for i in anim])
     elif img_id:
         image = client.get_image(img_id)
-        link = image.link
         if image.animated:
-            if link.endswith('.gif'):
-                link += 'v'
-            subprocess.Popen(['mpv', link])
+            link = image.gifv
+            subprocess.Popen(['mpv', link]).wait()
         else:
+            link = image.link
             args = ['feh']
             if image.title or image.description:
                 write_caption(image)
