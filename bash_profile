@@ -4,8 +4,8 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-export EDITOR=nvim
-#export BROWSER=firefox
+export EDITOR=vim
+#export BROWSER=qutebrowser
 export BROWSER=urlmenu
 export TERMINAL=termite
 export PATH=$PATH:~/.local/bin:~/bin
