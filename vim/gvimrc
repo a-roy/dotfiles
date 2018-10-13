@@ -1,3 +1,10 @@
+let s:Unix = has("unix")
+let s:Linux = system("uname") == "Linux\n"
+let s:MSWindows = has("win32") || has("win64")
+let s:Cygwin = has("win32unix")
+let s:Nvim = has("nvim")
+let s:WSL = s:Linux && strridx($PATH, "Windows/System32") >= 0
+
 " Maximize GUI
 if s:MSWindows
 	autocmd GUIEnter * simalt ~x
